@@ -1,113 +1,346 @@
-import Image from "next/image";
+'use client'
+import * as React from 'react'
+import Sheet from '@mui/joy/Sheet'
+import Typography from '@mui/joy/Typography'
+import FormControl from '@mui/joy/FormControl'
+import FormLabel from '@mui/joy/FormLabel'
+import Input from '@mui/joy/Input'
+import Button from '@mui/joy/Button'
+import Link from '@mui/joy/Link'
+import {
+  DarkMode,
+  Google,
+  Key,
+  KeyOutlined,
+  LightMode,
+  Lock,
+  LockOutlined,
+  SignpostOutlined,
+} from '@mui/icons-material'
+import { Box, Divider, IconButton, LinearProgress, Stack, useColorScheme } from '@mui/joy'
+
+import Particles, { initParticlesEngine } from '@tsparticles/react'
+
+import styles from '../styles/Home.module.css'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { loadLinksPreset } from '@tsparticles/preset-links'
+
+ function PasswordMeterInput() {
+  const [value, setValue] = React.useState('');
+  const minLength = 12;
+  return (
+    <Stack
+    
+      sx={{
+        '--hue': Math.min(value.length * 10, 120),
+      }}
+    >
+      <FormLabel>
+              {' '}
+              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                Email
+              </Typography>
+            </FormLabel>
+      <Input
+        type="password"
+       
+        startDecorator={<Key />}
+        size='sm'
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <LinearProgress
+        determinate
+        size="sm"
+        value={Math.min((value.length * 100) / minLength, 100)}
+        sx={{
+          bgcolor: 'background.level3',
+          color: 'hsl(var(--hue) 80% 40%)',
+        }}
+      />
+      <Typography
+        level="body-xs"
+        sx={{ alignSelf: 'flex-end', color: 'hsl(var(--hue) 80% 30%)' }}
+      >
+        {value.length < 3 && 'Very weak'}
+        {value.length >= 3 && value.length < 6 && 'Weak'}
+        {value.length >= 6 && value.length < 10 && 'Strong'}
+        {value.length >= 10 && 'Very strong'}
+      </Typography>
+    </Stack>
+  );
+}
+
+function ModeToggle(props: any) {
+  const { mode, setMode } = useColorScheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  return (
+    <IconButton
+      variant='plain'
+      onClick={() => {
+        setMode(mode === 'light' ? 'dark' : 'light')
+      }}
+      {...props}
+    >
+      {mode === 'light' ? <DarkMode /> : <LightMode />}
+    </IconButton>
+  )
+}
 
 export default function Home() {
+  const [open, setOpen] = useState(false)
+
+  const particlesInitCb = useCallback(async (engine: any) => {
+    console.log('callback')
+
+    await loadLinksPreset(engine)
+  }, [])
+
+  const particlesLoaded = useCallback((container: any) => {
+    console.log('loaded', container)
+  }, [])
+
+  const [init, setInit] = useState(false)
+
+  useEffect(() => {
+    initParticlesEngine(particlesInitCb).then(() => {
+      setInit(true)
+    })
+  }, [])
+
+  const options = useMemo(
+    () => ({
+      preset: 'links',
+      background: {
+        color: {
+          value: 'var(--joy-palette-background-surface)',
+        },
+      },
+      particles: {
+        color: {
+          value: '#0B6BCB',
+        },
+        number: {
+          density: {
+            enable: true,
+          },
+          value: 150,
+        },
+        links: {
+          color: {
+            value: '#0B6BCB',
+          },
+          distance: 250,
+          enable: true,
+          opacity: 0.5,
+          width: 1,
+        },
+      },
+      fullScreen: {
+        zIndex: -1,
+      },
+    }),
+    [],
+  )
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Sheet
+      sx={{
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      {init && <Particles id='tsparticles' options={options} />}
+      <Box display='flex'>
+        {/* <!---------------------------- */}
+        <Sheet
+          sx={{
+            position: 'relative',
+            opacity: '90%',
+            width: 300,
+            mx: 'auto',
+            my: 4,
+            py: 3,
+            px: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            zIndex: 1,
+
+            transition: 'transform 0.9s ease-out, opacity 0.5s ease-out',
+            transform: open ? 'translateX(50%)' : 'translateX(0)',
+          }}
+          variant='soft'
+        >
+         
+          {open? <ModeToggle
+            sx={{ width: 8, height: 8, right: 8, top: 8, position: 'absolute' }}
+          />: <></>}
+          <Box
+            display='flex'
+            flexDirection='column'
+            justifyContent='center'
+            justifyItems='center'
+            width='100%'
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+            <LockOutlined
+              sx={{
+                width: '36px',
+                height: '36px',
+                alignSelf: 'center',
+              }}
             />
-          </a>
-        </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+            <Typography level='h2' textAlign='center'>
+              <strong>Welcome back</strong>
+            </Typography>
+            <Typography
+              endDecorator={ <Button size='sm' onClick={() => setOpen(false)} variant='plain' color='primary' sx={{padding:0}}>Sign up</Button>}
+              fontSize='sm'
+              sx={{ alignSelf: 'center' }}
+            >
+              Don&apos;t have an account?
+            </Typography>
+          </Box>
+          <FormControl id='email'>
+            <FormLabel>
+              {' '}
+              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                Email
+              </Typography>
+            </FormLabel>
+            <Input size='sm' name='email' type='email' />
+          </FormControl>
+          <FormControl id='password'>
+            <FormLabel>
+              <Box display='flex' justifyItems='space-between' width='100%'>
+                <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                  Password
+                </Typography>
+                <Link
+                  level='body-xs'
+                  sx={{ whiteSpace: 'nowrap' }}
+                  href='/sign-up'
+                >
+                  Forget password?
+                </Link>
+              </Box>
+            </FormLabel>
+            <Input size='sm' name='password' type='password' />
+          </FormControl>
+          <Button sx={{ mt: 1 }}>Log in</Button>
+          <Divider sx={{
+            
+          }}>or</Divider>
+          <Button variant='outlined' sx={{
+          
+          }}>
+            <Google sx={{ mr: 1 }} /> Continue with Google
+          </Button>
+          <Typography fontSize='xs' textAlign='center' sx={{
+          
+          }}>
+            By signing in, you accept our{' '}
+            <Link href='/sign-up' fontWeight='bold'>
+              terms of service
+            </Link>
+          </Typography>
+        </Sheet>
+        {/* <!---------------------------- */}
+        <Divider orientation="vertical" />
+           {/* <Divider sx={{transform: 'rotate(90deg)'}}>---------------------------------------------------------------------</Divider>  */}
+        <Sheet
+          sx={{
+            position: 'relative',
+            width: 300,
+            mx: 'auto',
+            my: 4,
+            py: 3,
+            px: 4,
+            flexDirection: 'column',
+            gap: 2,
+            transition: 'transform 0.9s ease-out, opacity 1.1s ease-out',
+            opacity: open ? '0%' : '90%',
+            display: 'flex',
+            zIndex: 0,
+            transform: open ? 'translateX(-50%)' : 'translateX(0)',
+          }}
+          variant='soft'
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+          <ModeToggle
+            sx={{ width: 8, height: 8, right: 8, top: 8, position: 'absolute' }}
+          />
+          <Box
+            display='flex'
+            flexDirection='column'
+            justifyContent='center'
+            justifyItems='center'
+            width='100%'
+          >
+            <KeyOutlined
+              sx={{
+                width: '36px',
+                height: '36px',
+                alignSelf: 'center',
+              }}
+            />
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+            <Typography level='h2' textAlign='center'>
+              <strong>Registration</strong>
+            </Typography>
+            <Typography
+              endDecorator={<Button size='sm' onClick={() => setOpen(true)} variant='plain' color='primary' sx={{padding:0}}>Log in</Button>}
+              fontSize='sm'
+              sx={{ alignSelf: 'center' }}
+            >
+              You have account?
+            </Typography>
+          </Box>
+          <FormControl id='email'>
+            <FormLabel>
+              {' '}
+              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                Name
+              </Typography>
+            </FormLabel>
+            <Input size='sm' name='email' type='email' />
+          </FormControl>
+          <FormControl id='email'>
+            <FormLabel>
+              {' '}
+              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                Email
+              </Typography>
+            </FormLabel>
+            <Input size='sm' name='email' type='email' />
+          </FormControl>
+          <FormControl id='email'>
+            
+           <PasswordMeterInput/>
+          </FormControl>
+          <FormControl id='password'>
+            <FormLabel>
+              <Box display='flex' justifyItems='space-between' width='100%'>
+                <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                  Retry password
+                </Typography>
+              
+              </Box>
+            </FormLabel>
+            <Input size='sm' name='password' type='password' />
+          </FormControl>
+          
+          <Button sx={{ mt: 1 }}>Register</Button>
+         
+        </Sheet>
+      </Box>
+    </Sheet>
+  )
 }

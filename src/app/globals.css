@@ -31,3 +31,21 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Add this CSS to your stylesheet */
+.brush-line {
+  position: relative;
+  width: 2px; /* Initial thickness */
+  height: 200px; /* Adjust based on your needs */
+  background: transparent;
+}
+
+.brush-line::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: 10px; /* Max thickness */
+  background: linear-gradient(to bottom, transparent 20%, black 30%, black 70%, transparent 80%);
+}
