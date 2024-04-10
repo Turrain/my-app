@@ -1,5 +1,10 @@
-'use client'
-import * as React from 'react'
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next'
+import { getProviders } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
+import { options } from '../api/auth/[...nextauth]'
 import Sheet from '@mui/joy/Sheet'
 import Typography from '@mui/joy/Typography'
 import FormControl from '@mui/joy/FormControl'
@@ -7,43 +12,106 @@ import FormLabel from '@mui/joy/FormLabel'
 import Input from '@mui/joy/Input'
 import Button from '@mui/joy/Button'
 import Link from '@mui/joy/Link'
+import * as React from 'react'
 import {
   DarkMode,
+  GitHub,
   Google,
   Key,
   KeyOutlined,
   LightMode,
   Lock,
   LockOutlined,
+  Mail,
   SignpostOutlined,
 } from '@mui/icons-material'
-import { Box, Divider, IconButton, LinearProgress, Stack, useColorScheme } from '@mui/joy'
-
-import Particles, { initParticlesEngine } from '@tsparticles/react'
-
-import styles from '../styles/Home.module.css'
+import {
+  Box,
+  Divider,
+  IconButton,
+  LinearProgress,
+  Snackbar,
+  Stack,
+  useColorScheme,
+} from '@mui/joy'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { loadLinksPreset } from '@tsparticles/preset-links'
+import Particles, { initParticlesEngine } from '@tsparticles/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
- function PasswordMeterInput() {
-  const [value, setValue] = React.useState('');
-  const minLength = 12;
+async function createUser(email, password) {
+  const response = await fetch('/api/auth/signup', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Something went wrong!')
+  }
+
+  // login after signup
+  const result = await signIn('credentials', {
+    redirect: false,
+    email: email,
+    password: password,
+  })
+
+  // console.log("signup",data)
+  return data
+}
+async function submitHandler(event) {
+    event.preventDefault()
+  
+    const enteredEmail = emailInputRef.current.value
+    const enteredPassword = passwordInputRef.current.value
+  
+    // optional: Add validation
+      var isLogin = true;
+    if (isLogin) {
+      const result = await signIn('credentials', {
+        redirect: true,
+        email: enteredEmail,
+        password: enteredPassword,
+      })
+  
+      // if (!result.error) {
+      //   // set some auth state
+      //   router.replace('/profile')
+      // }
+    } else {
+      // try {
+      //   const result = await createUser(enteredEmail, enteredPassword)
+      //   console.log(result)
+      // } catch (error) {
+      //   console.log(error)
+      // }
+    }
+  }
+
+
+function PasswordMeterInput() {
+  const [value, setValue] = React.useState('')
+  const minLength = 12
+  
   return (
     <Stack
-    
       sx={{
         '--hue': Math.min(value.length * 10, 120),
       }}
     >
       <FormLabel>
-              {' '}
-              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
-                Email
-              </Typography>
-            </FormLabel>
+        {' '}
+        <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+          Email
+        </Typography>
+      </FormLabel>
       <Input
-        type="password"
-       
+        type='password'
         startDecorator={<Key />}
         size='sm'
         value={value}
@@ -51,7 +119,7 @@ import { loadLinksPreset } from '@tsparticles/preset-links'
       />
       <LinearProgress
         determinate
-        size="sm"
+        size='sm'
         value={Math.min((value.length * 100) / minLength, 100)}
         sx={{
           bgcolor: 'background.level3',
@@ -59,7 +127,7 @@ import { loadLinksPreset } from '@tsparticles/preset-links'
         }}
       />
       <Typography
-        level="body-xs"
+        level='body-xs'
         sx={{ alignSelf: 'flex-end', color: 'hsl(var(--hue) 80% 30%)' }}
       >
         {value.length < 3 && 'Very weak'}
@@ -68,7 +136,7 @@ import { loadLinksPreset } from '@tsparticles/preset-links'
         {value.length >= 10 && 'Very strong'}
       </Typography>
     </Stack>
-  );
+  )
 }
 
 function ModeToggle(props: any) {
@@ -91,10 +159,11 @@ function ModeToggle(props: any) {
     </IconButton>
   )
 }
-
-export default function Home() {
+export default function SignIn({
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false)
-
+  const { mode } = useColorScheme()
   const particlesInitCb = useCallback(async (engine: any) => {
     console.log('callback')
 
@@ -157,8 +226,36 @@ export default function Home() {
         minHeight: '100vh',
       }}
     >
+         <Snackbar
+        variant="soft"
+        color="success"
+        open={open}
+         onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+     
+        endDecorator={
+          <Button
+            onClick={() => setOpen(false)}
+            size="sm"
+            variant="soft"
+            color="success"
+          >
+            Close
+          </Button>
+        }
+      >
+        You have logged
+      </Snackbar>
       {init && <Particles id='tsparticles' options={options} />}
-      <Box display='flex'>
+      <Box
+        display='flex'
+        sx={{
+          flexDirection: {
+            xs: 'column',
+            sm: 'row',
+          },
+        }}
+      >
         {/* <!---------------------------- */}
         <Sheet
           sx={{
@@ -179,10 +276,19 @@ export default function Home() {
           }}
           variant='soft'
         >
-         
-          {open? <ModeToggle
-            sx={{ width: 8, height: 8, right: 8, top: 8, position: 'absolute' }}
-          />: <></>}
+          {open ? (
+            <ModeToggle
+              sx={{
+                width: 8,
+                height: 8,
+                right: 8,
+                top: 8,
+                position: 'absolute',
+              }}
+            />
+          ) : (
+            <></>
+          )}
           <Box
             display='flex'
             flexDirection='column'
@@ -202,11 +308,21 @@ export default function Home() {
               <strong>Welcome back</strong>
             </Typography>
             <Typography
-              endDecorator={ <Button size='sm' onClick={() => setOpen(false)} variant='plain' color='primary' sx={{padding:0}}>Sign up</Button>}
+              endDecorator={
+                <Button
+                  size='sm'
+                  onClick={() => setOpen(false)}
+                  variant='plain'
+                  color='primary'
+                  sx={{ padding: 0 }}
+                >
+                  Expand
+                </Button>
+              }
               fontSize='sm'
               sx={{ alignSelf: 'center' }}
             >
-              Don&apos;t have an account?
+              Don't have an account?
             </Typography>
           </Box>
           <FormControl id='email'>
@@ -236,17 +352,22 @@ export default function Home() {
             <Input size='sm' name='password' type='password' />
           </FormControl>
           <Button sx={{ mt: 1 }}>Log in</Button>
-          <Divider sx={{
-            
-          }}>or</Divider>
-          <Button variant='outlined' sx={{
-          
-          }}>
-            <Google sx={{ mr: 1 }} /> Continue with Google
-          </Button>
-          <Typography fontSize='xs' textAlign='center' sx={{
-          
-          }}>
+          <Divider sx={{}}>or</Divider>
+          <>
+            {Object.values(providers)
+              .filter((i) => !['credentials'].includes(i.type))
+              .map((provider) => (
+                <Button
+                  key={provider.name}
+                  variant='outlined'
+                  sx={{}}
+                  onClick={() => signIn(provider.id)}
+                >
+                  <Mail sx={{ mr: 1 }} /> Continue with {provider.name}
+                </Button>
+              ))}
+          </>
+          <Typography fontSize='xs' textAlign='center' sx={{}}>
             By signing in, you accept our{' '}
             <Link href='/sign-up' fontWeight='bold'>
               terms of service
@@ -254,8 +375,8 @@ export default function Home() {
           </Typography>
         </Sheet>
         {/* <!---------------------------- */}
-        <Divider orientation="vertical" />
-           {/* <Divider sx={{transform: 'rotate(90deg)'}}>---------------------------------------------------------------------</Divider>  */}
+        <Divider orientation='vertical' />
+        {/* <Divider sx={{transform: 'rotate(90deg)'}}>---------------------------------------------------------------------</Divider>  */}
         <Sheet
           sx={{
             position: 'relative',
@@ -270,6 +391,7 @@ export default function Home() {
             opacity: open ? '0%' : '90%',
             display: 'flex',
             zIndex: 0,
+        
             transform: open ? 'translateX(-50%)' : 'translateX(0)',
           }}
           variant='soft'
@@ -296,22 +418,23 @@ export default function Home() {
               <strong>Registration</strong>
             </Typography>
             <Typography
-              endDecorator={<Button size='sm' onClick={() => setOpen(true)} variant='plain' color='primary' sx={{padding:0}}>Log in</Button>}
+              endDecorator={
+                <Button
+                  size='sm'
+                  onClick={() => setOpen(true)}
+                  variant='plain'
+                  color='primary'
+                  sx={{ padding: 0 }}
+                >
+                  Back
+                </Button>
+              }
               fontSize='sm'
               sx={{ alignSelf: 'center' }}
             >
-              You have account?
+              Or you want back?
             </Typography>
           </Box>
-          <FormControl id='email'>
-            <FormLabel>
-              {' '}
-              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
-                Name
-              </Typography>
-            </FormLabel>
-            <Input size='sm' name='email' type='email' />
-          </FormControl>
           <FormControl id='email'>
             <FormLabel>
               {' '}
@@ -322,25 +445,45 @@ export default function Home() {
             <Input size='sm' name='email' type='email' />
           </FormControl>
           <FormControl id='email'>
-            
-           <PasswordMeterInput/>
+            <FormLabel>
+              {' '}
+              <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                Name
+              </Typography>
+            </FormLabel>
+            <Input size='sm' name='email' type='email' />
           </FormControl>
           <FormControl id='password'>
             <FormLabel>
               <Box display='flex' justifyItems='space-between' width='100%'>
                 <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
-                  Retry password
+                  Password
                 </Typography>
               
               </Box>
             </FormLabel>
             <Input size='sm' name='password' type='password' />
           </FormControl>
-          
           <Button sx={{ mt: 1 }}>Register</Button>
-         
         </Sheet>
       </Box>
     </Sheet>
   )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, options)
+  options
+  // If the user is already logged in, redirect.
+  // Note: Make sure not to redirect to the same page
+  // To avoid an infinite loop!
+  if (session) {
+    return { redirect: { destination: '/' } }
+  }
+
+  const providers = await getProviders()
+
+  return {
+    props: { providers: providers ?? [] },
+  }
 }

@@ -19,8 +19,12 @@
     "@tsparticles/preset-links": "^3.0.2",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.3.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cookies": "^0.9.1",
     "next": "14.1.4",
     "next-auth": "^4.24.7",
+    "nodemailer": "^6.9.13",
     "react": "^18",
     "react-dom": "^18"
   },
