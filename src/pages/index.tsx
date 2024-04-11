@@ -41,6 +41,7 @@ import {
   Chip,
   Container,
   Divider,
+  Grid,
   IconButton,
   LinearProgress,
   List,
@@ -612,208 +613,50 @@ export default function Home() {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          width: '100%',
-          backgroundImage: 'url(planet-earth-background.jpg)',
-          backgroundSize: '100vw',
-          height: '100vh',
-        }}
+    
+      <LandingBlock
+        containerSize='xl'
+        header='HELLO'
+        subHeader='AEEEEEE'
+        imageUrl='planet-earth-background.jpg'
       >
         <Box
           sx={{
-            width: '100%',
             display: 'flex',
-
             justifyContent: 'center',
-            my: '2rem',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Typography
-              level='h4'
-              color='success'
-              maxWidth={400}
-              textAlign='center'
-            >
-              TECHNOLOGIES
-            </Typography>
-            <Typography
-              level='h2'
-              color='primary'
-              maxWidth={400}
-              textAlign='center'
-            >
-              FROM PIXEL TO TRUSTED SOLUTIONS
-            </Typography>
-            <Box
-              sx={{
-                margin: 'auto',
-                width: '70%',
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                mt: 9,
-                gap: 4,
-              }}
-            >
-              {Array.from({ length: 6 }, (_, index) => (
-                <Card
-                  variant='plain'
-                  key={index}
-                  sx={{
-                    width: 320,
-                    maxWidth: '100%',
-                    backgroundColor: 'rgba(0,0,0,0.45)',
-                  }}
-                >
-                  <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
-                    <Typography level='title-lg'>USER BASE</Typography>
-                    <Typography level='h1'>100$+</Typography>
-                    <Typography level='title-lg'>USERS</Typography>
+            height: '100%',
+            margin: 'auto',
+            width: '70%',
 
-                    <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
-                      1М+ end users are acting on our insights
-                    </Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE' imageUrl='planet-earth-background.jpg'>
-      <Card
-      variant="outlined"
-      sx={{
-        width: 500,
-        
-        '--Card-radius': (theme) => theme.vars.radius.xs,
-      }}
-    >
-      <CardContent orientation="horizontal" sx={{ alignItems: 'center', gap: 1 }}>
-        <Box
-          sx={{
-            position: 'relative',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              m: '-2px',
-              borderRadius: '50%',
-              background:
-                'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)',
-            },
+            flexWrap: 'wrap',
+
+            gap: 4,
+            mt: '16rem',
           }}
         >
-          <Avatar
-            size="sm"
-            src="/static/logo.png"
-            sx={{ p: 0.5, border: '2px solid', borderColor: 'background.body' }}
-          />
-        </Box>
-        <Typography fontWeight="lg">MUI</Typography>
-        <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>
-          <MoreHoriz />
-        </IconButton>
-      </CardContent>
-      <CardOverflow>
-        <AspectRatio>
-          <img src="o_nas.jpg" alt="" loading="lazy" />
-        </AspectRatio>
-      </CardOverflow>
-      <CardContent orientation="horizontal" sx={{ alignItems: 'center', mx: -1 }}>
-        <Box sx={{ width: 0, display: 'flex', gap: 0.5 }}>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <FavoriteBorder />
-          </IconButton>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <ModeCommentOutlined />
-          </IconButton>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <SendOutlined />
-          </IconButton>
-        </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mx: 'auto' }}>
-          {[...Array(5)].map((_, index) => (
-            <Box
+          {Array.from({ length: 6 }, (_, index) => (
+            <Card
+              variant='plain'
               key={index}
               sx={{
-                borderRadius: '50%',
-                width: `max(${6 - index}px, 3px)`,
-                height: `max(${6 - index}px, 3px)`,
-                bgcolor: index === 0 ? 'primary.solidBg' : 'background.level3',
+                width: 320,
+                maxWidth: '100%',
+                backgroundColor: 'rgba(0,0,0,0.45)',
               }}
-            />
+            >
+              <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
+                <Typography level='title-lg'>USER BASE</Typography>
+                <Typography level='h1'>100$+</Typography>
+                <Typography level='title-lg'>USERS</Typography>
+
+                <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
+                  1М+ end users are acting on our insights
+                </Typography>
+              </CardContent>
+            </Card>
           ))}
         </Box>
-        <Box sx={{ width: 0, display: 'flex', flexDirection: 'row-reverse' }}>
-          <IconButton variant="plain" color="neutral" size="sm">
-            <BookmarkAddOutlined />
-          </IconButton>
-        </Box>
-      </CardContent>
-      <CardContent>
-        <Link
-          component="button"
-          underline="none"
-          fontSize="sm"
-          fontWeight="lg"
-          textColor="text.primary"
-        >
-          8.1M Likes
-        </Link>
-        <Typography fontSize="sm">
-          <Link
-            component="button"
-            color="neutral"
-            fontWeight="lg"
-            textColor="text.primary"
-          >
-            💻 О НАС 💻
-          </Link>{' '}
-          Мы - команда страстных и целеустремленных IT-гуру, которые живут и дышат кодом! <br/>👨‍💻👩‍💻 Наша компания была основана в 2015 году, и с тех пор мы воплощаем в жизнь инновационные идеи и создаем передовые цифровые решения для наших клиентов.
-
-В нашей команде работают лучшие таланты со всего мира, объединенные общей страстью к технологиям. <br/> 🌍 Мы гордимся нашей разносторонностью и уникальным подходом к каждому проекту. Вместе мы создаем удивительные продукты, которые меняют правила игры!
-
-Присоединяйтесь к нашей IT-семье и откройте для себя новые горизонты цифрового мира! 🚀
-        </Typography>
-     
-        <Link
-          component="button"
-          underline="none"
-          fontSize="10px"
-          sx={{ color: 'text.tertiary', my: 0.5 }}
-        >
-          1 ДЕНЬ НАЗАД
-        </Link>
-      </CardContent>
-      <CardContent orientation="horizontal" sx={{ gap: 1 }}>
-        <IconButton size="sm" variant="plain" color="neutral" sx={{ ml: -1 }}>
-          <Face />
-        </IconButton>
-        <Input
-          variant="plain"
-          size="sm"
-          placeholder="Add a comment…"
-          sx={{ flex: 1, px: 0, '--Input-focusedThickness': '0px' }}
-        />
-        <Link disabled underline="none" role="button">
-          Post
-        </Link>
-      </CardContent>
-    </Card>
-        </LandingBlock>
+      </LandingBlock>
       <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
         <Stack gap='2rem'>
           <ImageWithContent
