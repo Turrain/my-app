@@ -1,18 +1,28 @@
-import '@/app/ui/global.css';
+import '@/app/globals.css';
 import { Viewport } from 'next';
+import { getServerSession } from 'next-auth';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession()
   return (
     <html lang="rr">
        <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
-      <body >{children}</body>
+        <div>
+          sdfsdf
+          {
+            !!session && (
+              <div>{session.user?.email} </div>
+            )
+          }
+        </div>
+     
     </html>
   );
 }

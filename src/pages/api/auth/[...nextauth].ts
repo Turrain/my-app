@@ -21,12 +21,11 @@ const options:AuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
         email: { label: "Username", type: "text", placeholder: "jsmith@mail.ru" },
       },
       async authorize(credentials, req) {
-
+        
         // prisma get user by mail
         const user = await prisma.user.findUnique({
           where: {
@@ -46,10 +45,12 @@ const options:AuthOptions = {
         }
         console.log("user id", user.id)
         if (user) {
+          console.log("user", user)
           // Any object returned will be saved in `user` property of the JWT
-          return { email: user.email, name: user.name , id: user.id}
+          return { email: user.email, id: user.id}
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
+          console.log("errrrr")
           return null
         }
 
@@ -62,12 +63,20 @@ const options:AuthOptions = {
     }),
   ],
   adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   
-
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  callbacks: {
+  
+},
   debug: true,
-  pages: {
-    signIn: "/auth/signin",
+  pages:{ 
+    signIn: '/auth/signin',
   }
+
+ 
 };
-export {options,authHandler};

@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-async-client-component */
+/* eslint-disable jsx-a11y/alt-text */
 'use client'
 import * as React from 'react'
 import Sheet from '@mui/joy/Sheet'
@@ -6,6 +8,7 @@ import FormControl from '@mui/joy/FormControl'
 import FormLabel from '@mui/joy/FormLabel'
 import Input from '@mui/joy/Input'
 import Button from '@mui/joy/Button'
+import { useSession, getSession } from "next-auth/react"
 import Link from '@mui/joy/Link'
 import './index.css'
 import {
@@ -39,6 +42,11 @@ import Particles, { initParticlesEngine } from '@tsparticles/react'
 import styles from '../styles/Home.module.css'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { loadLinksPreset } from '@tsparticles/preset-links'
+import { ReactTyped } from 'react-typed'
+import Lightbox from 'yet-another-react-lightbox'
+import Zoom from 'yet-another-react-lightbox/plugins/zoom'
+import NextJsImage from '@/components/NextJsImage'
+import { getServerSession } from 'next-auth'
 
 function ModeToggle(props: any) {
   const { mode, setMode } = useColorScheme()
@@ -61,7 +69,12 @@ function ModeToggle(props: any) {
   )
 }
 
-const BorderWithCornerCircles = ({ color = '#4ADE80', children, variant='soft', ...props }) => {
+const BorderWithCornerCircles = ({
+  color = '#4ADE80',
+  children,
+  variant = 'soft',
+  ...props
+}) => {
   const circleStyle = {
     width: '8px',
     height: '8px',
@@ -71,17 +84,17 @@ const BorderWithCornerCircles = ({ color = '#4ADE80', children, variant='soft', 
   }
 
   return (
-  
     <Sheet
-         variant={variant}
+      variant={variant}
       sx={{
         border: `2px solid ${color}`,
         width: '100%',
         height: '100%',
         p: 3,
         position: 'relative',
-        opacity: '80%',
-        borderRadius: '10px'
+        opacity: '100%',
+        borderRadius: '10px',
+        ...props.sx,
       }}
       {...props}
     >
@@ -157,28 +170,37 @@ function CardLayers3d() {
         },
       }}
     >
-      <div>
-        <Typography
-          level='h2'
-          fontSize='lg'
-          m={2}
-          maxWidth={400}
-          sx={{
-            borderBottom: '2px solid #0B6BCB',
-            borderRight: '2px solid #0B6BCB',
-          }}
-        >
-          The normalized difference vegetation index (NDVI) is a widely-used
-          metric for quantifying the health and density of vegetation using
-          sensor data. It is calculated from
-        </Typography>
-        <Typography level='h2' fontSize='lg' m={2} maxWidth={400}>
-          Original
-        </Typography>
-      </div>
+      <Typography
+        level='h2'
+        fontSize='lg'
+        m={2}
+        maxWidth={400}
+        sx={{
+          zIndex: 4,
+          borderBottom: '2px solid #4ADE80',
+          borderRight: '2px solid #4ADE80',
+        }}
+      >
+        The normalized difference vegetation index (NDVI) is a widely-used
+        metric for quantifying the health and density of vegetation using sensor
+        data. It is calculated from
+      </Typography>
+      <Typography
+        sx={{
+          zIndex: 4,
+        }}
+        level='h2'
+        fontSize='lg'
+        m={2}
+        maxWidth={400}
+      >
+        Original
+      </Typography>
+
       <Card
         variant='outlined'
         sx={{
+          zIndex: -1,
           minHeight: '280px',
           width: 380,
           height: 400,
@@ -186,45 +208,45 @@ function CardLayers3d() {
         }}
       >
         <CardContent>
-          <BorderWithCornerCircles variant='plain' sx={{opacity: '75%'}}>
+          <BorderWithCornerCircles
+            variant='plain'
+            sx={{ opacity: '75%', zIndex: -1 }}
+          >
             <img src='ndvi.png' width='100%' />
           </BorderWithCornerCircles>
-          <div>
-        <Typography
-            sx={{
-          
-              borderBottom: '2px solid #4ADE80',
-              borderRight: '2px solid #4ADE80',
-            }}
-            level='h2'
-            fontSize='lg'
-            m={2}
-          >
-            NDVI
-          </Typography>
-          <Typography
-            sx={{
-          
-            }}
-            level='h4'
-            fontSize='md'
-            m={2}
-          >
-            The normalized difference vegetation index (NDVI) is a widely-used
-            metric for quantifying the health and density of vegetation using
-            sensor data. It is calculated from spectrometric data at two
-            specific bands: red and near-infrared. The spectrometric data is
-            usually sourced from remote sensors, such as satellites.
-          </Typography>
-        </div>
         </CardContent>
-        
       </Card>
+      <Typography
+        sx={{
+          zIndex: 4,
+          borderBottom: '2px solid #4ADE80',
+          borderRight: '2px solid #4ADE80',
+        }}
+        level='h2'
+        fontSize='lg'
+        m={2}
+        maxWidth={400}
+      >
+        NDVI
+      </Typography>
+      <Typography sx={{}} m={2} maxWidth={400} level='h4' fontSize='md'>
+        The normalized difference vegetation index (NDVI) is a widely-used
+        metric for quantifying the health and density of vegetation using sensor
+        data. It is calculated from spectrometric data at two specific bands:
+        red and near-infrared. The spectrometric data is usually sourced from
+        remote sensors, such as satellites.
+      </Typography>
     </Box>
   )
 }
-export default function Home() {
+export default  function Home() {
   const { mode } = useColorScheme()
+  const imageSizes = [16, 32, 48, 64, 96, 128, 256, 384];
+const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
+  const [openLb,setOpenLb] = React.useState(true);
+
+
+
   const particlesInitCb = useCallback(async (engine: any) => {
     console.log('callback')
 
@@ -254,7 +276,7 @@ export default function Home() {
 
       particles: {
         color: {
-          value: '#0B6BCB',
+          value: '#4ADE80',
         },
         number: {
           density: {
@@ -264,7 +286,7 @@ export default function Home() {
         },
         links: {
           color: {
-            value: '#0B6BCB',
+            value: '#4ADE80',
           },
           distance: 250,
           enable: true,
@@ -276,14 +298,23 @@ export default function Home() {
     }),
     [],
   )
+  const session = useSession()
+
+    console.log(session)
+  if (!session.status) {
+    return <p>Access Denied</p>
+  }  console.log(session)
   return (
+
     <Box
       display='flex'
       flexDirection='column'
       gap='2rem'
       width='100%'
       sx={{ my: '4rem' }}
+      
     >
+       <div>{session.data?.user?.email}</div>
       <Sheet
         sx={{
           display: 'flex',
@@ -295,7 +326,7 @@ export default function Home() {
           position: 'relative,',
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             position: 'absolute',
             left: '70%',
@@ -333,8 +364,9 @@ export default function Home() {
             <Typography level='h2'>Data Management</Typography>
             <Typography level='h4'>Load or Import your own data</Typography>
           </BorderWithCornerCircles>
-        </Box>
+        </Box> */}
         {init && <Particles id='tsparticles' options={options} />}
+      
         <Box
           display='flex'
           sx={{
@@ -347,30 +379,84 @@ export default function Home() {
           alignItems='center'
           justifyContent='space-evenly'
         >
-          <Box display='flex' flexDirection='column'  gap='2rem'>
-            <BorderWithCornerCircles color='#0B6BCB'>
-            
-                <Typography level='h1' maxWidth={400}>
-                  EOS Data Analytics: <br />
-                  <Typography level='h2' color='primary' maxWidth={400}>
-                    Space solutions for Earth problems
+          <Box display='flex' flexDirection='column' gap='2rem'>
+            <BorderWithCornerCircles
+              color='#4ADE80'
+              sx={{ p: 10, border: `2px solid #4ADE80` }}
+              variant='plain'
+            >
+              <Typography level='h1' maxWidth={400}>
+                EOS Data Analytics:
+              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'end',
+                  justifyItems: 'end',
+                }}
+              >
+                <Typography
+                  level='h2'
+                  sx={{ color: '#4ADE80', textAlign: 'end' }}
+                  maxWidth={400}
+                >
+                  Space solutions for Earth problems
+                </Typography>
+              </Box>
+              <Typography
+                level='h2'
+                fontSize='md'
+                p={2}
+                maxWidth={480}
+                sx={{
+                  zIndex: 4,
+                  borderBottom: '2px solid #4ADE80',
+                  borderRight: '2px solid #4ADE80',
+                }}
+              >
+                The normalized difference vegetation index (NDVI) is a
+                widely-used metric for quantifying the health and density of
+                vegetation using sensor data. It is calculated from
+              </Typography>
+            </BorderWithCornerCircles>
+            <BorderWithCornerCircles color='#4ADE80' variant='plain'>
+              <Typography level='h2' fontSize='md' maxWidth={480}>
+                The normalized difference vegetation index (NDVI) is a
+                widely-used metric for quantifying the health and density of
+                vegetation using sensor data. It is calculated from
+              </Typography>
+            </BorderWithCornerCircles>
+            <BorderWithCornerCircles color='#4ADE80' variant='plain'>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
+              >
+                <Typography level='h3' textAlign='left'>
+                  Login &nbsp;
+                  <ReactTyped
+                    strings={[
+                      'to access data',
+                      'to access maps',
+                      'to help you',
+                    ]}
+                    typeSpeed={100}
+                    loop
+                  />
+                  <br />
+                  <Typography level='h4' fontSize='lg'>
+                    Just one click
                   </Typography>
                 </Typography>
-              
-            </BorderWithCornerCircles>
-            <BorderWithCornerCircles color='#0B6BCB'>
-              <Typography level='h4' maxWidth={400}>
-                EOSDA wants to make a positive change using geospatial data and
-                custom algorithms.
-              </Typography>
-            </BorderWithCornerCircles>
-            <BorderWithCornerCircles color='#0B6BCB'>
-              <Typography level='h4' maxWidth={600}>
-                Our system makes it easy to get the fast and actionable data you
-                need to drive your business and preserve our Planet. We provide
-                effective solutions for Agriculture and Forestry, among many
-                more applied fields upon custom request.
-              </Typography>
+                <Button variant='plain' >
+                  <Typography sx={{color:'#4ADE80'}} level='h4' fontSize='lg'>
+                    Next &gt;
+                  </Typography>
+                </Button>
+              </Box>
             </BorderWithCornerCircles>
           </Box>
 
@@ -378,15 +464,20 @@ export default function Home() {
         </Box>
       </Sheet>
 
-          <Box sx={{
-            width: '80%',
-            margin: 'auto'
-          }}>
- <BorderWithCornerCircles
-        variant='soft'
-        color='#0B6BCB'
+      <Box
+        sx={{
+          width: '95%',
+          margin: 'auto',
+        }}
       >
-        <Box display='flex' sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+        <Box
+          display='flex'
+          sx={{
+            p: 2,
+            alignItems: 'center',
+            flexDirection: { xs: 'column', md: 'row' },
+          }}
+        >
           <Box p={2}>
             <Typography
               level='h2'
@@ -396,7 +487,7 @@ export default function Home() {
             >
               Space solutions for Earth problems
             </Typography>
-            <Typography level='h4' maxWidth={600}>
+            <Typography level='h4' fontSize='md' maxWidth={500}>
               EOS Data Analytics is one of the leading global geospatial
               analytics providers on the market, partnering with governmental,
               commercial, and scientific organizations. EOSDA creates
@@ -408,12 +499,131 @@ export default function Home() {
             </Typography>
           </Box>
           <Box borderRadius='45px' overflow='hidden'>
+            // eslint-disable-next-line jsx-a11y/alt-text
             <img src='map.jpg' width='100%' />
           </Box>
         </Box>
-      </BorderWithCornerCircles>
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+
+          height: '100vh',
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+
+            justifyContent: 'center',
+            my: '2rem',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography
+              level='h4'
+              color='success'
+              maxWidth={400}
+              textAlign='center'
+            >
+              OUR PRODUCTS
+            </Typography>
+            <Typography
+              level='h2'
+              color='primary'
+              maxWidth={400}
+              textAlign='center'
+            >
+              Explore the geospatial solutions for your business
+            </Typography>
           </Box>
-     
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          width: '100%',
+          backgroundImage: 'url(planet-earth-background.jpg)',
+          backgroundSize: '100vw',
+          height: '100vh',
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+
+            justifyContent: 'center',
+            my: '2rem',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography
+              level='h4'
+              color='success'
+              maxWidth={400}
+              textAlign='center'
+            >
+              TECHNOLOGIES
+            </Typography>
+            <Typography
+              level='h2'
+              color='primary'
+              maxWidth={400}
+              textAlign='center'
+            >
+              FROM PIXEL TO TRUSTED SOLUTIONS
+            </Typography>
+            <Box
+              sx={{
+                margin: 'auto',
+                width: '70%',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                mt: 9,
+                gap: 4,
+              }}
+            >
+              {Array.from({ length: 6 }, (_, index) => (
+                <Card
+                  variant='plain'
+                  key={index}
+                  sx={{
+                    width: 320,
+                    maxWidth: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.45)',
+                  }}
+                >
+                  <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
+                    <Typography level='title-lg'>USER BASE</Typography>
+                    <Typography level='h1'>100$+</Typography>
+                    <Typography level='title-lg'>USERS</Typography>
+
+                    <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
+                      1М+ end users are acting on our insights
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </Box>
 
       <Box
         sx={{

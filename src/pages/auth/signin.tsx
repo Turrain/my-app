@@ -38,6 +38,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { loadLinksPreset } from '@tsparticles/preset-links'
 import Particles, { initParticlesEngine } from '@tsparticles/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import router from 'next/router'
 
 async function createUser(email, password) {
   const response = await fetch('/api/auth/signup', {
@@ -47,13 +48,14 @@ async function createUser(email, password) {
       'Content-Type': 'application/json',
     },
   })
-
+  console.log(email,password)
   const data = await response.json()
 
   if (!response.ok) {
     throw new Error(data.message || 'Something went wrong!')
   }
 
+  console.log(response)
   // login after signup
   const result = await signIn('credentials', {
     redirect: false,
@@ -64,32 +66,32 @@ async function createUser(email, password) {
   // console.log("signup",data)
   return data
 }
-async function submitHandler(event) {
+async function submitHandler(event, email, password) {
     event.preventDefault()
   
-    const enteredEmail = emailInputRef.current.value
-    const enteredPassword = passwordInputRef.current.value
+
   
     // optional: Add validation
       var isLogin = true;
     if (isLogin) {
       const result = await signIn('credentials', {
-        redirect: true,
-        email: enteredEmail,
-        password: enteredPassword,
+        redirect: false,
+        email: email,
+        password: password,
       })
-  
-      // if (!result.error) {
-      //   // set some auth state
-      //   router.replace('/profile')
-      // }
+      console.log(result)
+      if (!result?.error) {
+        // set some auth state
+        router.push('/')
+        router.reload()
+      }
     } else {
-      // try {
-      //   const result = await createUser(enteredEmail, enteredPassword)
-      //   console.log(result)
-      // } catch (error) {
-      //   console.log(error)
-      // }
+      try {
+        const result = await createUser(email, password)
+        console.log(result)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -164,6 +166,8 @@ export default function SignIn({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false)
   const { mode } = useColorScheme()
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
   const particlesInitCb = useCallback(async (engine: any) => {
     console.log('callback')
 
@@ -322,7 +326,7 @@ export default function SignIn({
               fontSize='sm'
               sx={{ alignSelf: 'center' }}
             >
-              Don't have an account?
+              Dont have an account?
             </Typography>
           </Box>
           <FormControl id='email'>
@@ -332,12 +336,12 @@ export default function SignIn({
                 Email
               </Typography>
             </FormLabel>
-            <Input size='sm' name='email' type='email' />
+            <Input size='sm' name='email' type='email' value={email} onChange={(e)=>setEmail(e.target.value)} />
           </FormControl>
           <FormControl id='password'>
             <FormLabel>
               <Box display='flex' justifyItems='space-between' width='100%'>
-                <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }}>
+                <Typography fontSize='xs' sx={{ alignSelf: 'center', mr: 1 }} >
                   Password
                 </Typography>
                 <Link
@@ -349,9 +353,9 @@ export default function SignIn({
                 </Link>
               </Box>
             </FormLabel>
-            <Input size='sm' name='password' type='password' />
+            <Input size='sm' name='password' type='password' value={password} onChange={(e)=>setPassword(e.target.value)} />
           </FormControl>
-          <Button sx={{ mt: 1 }}>Log in</Button>
+          <Button sx={{ mt: 1 }} onClick={(e)=>{submitHandler(e, email, password)}}>Log in</Button>
           <Divider sx={{}}>or</Divider>
           <>
             {Object.values(providers)
