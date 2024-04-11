@@ -8,11 +8,15 @@ import FormControl from '@mui/joy/FormControl'
 import FormLabel from '@mui/joy/FormLabel'
 import Input from '@mui/joy/Input'
 import Button from '@mui/joy/Button'
-import { useSession, getSession } from "next-auth/react"
+import { useSession, getSession } from 'next-auth/react'
 import Link from '@mui/joy/Link'
 import './index.css'
 import {
+  BookmarkAddOutlined,
+  Check,
   DarkMode,
+  Face,
+  FavoriteBorder,
   GitHub,
   Google,
   Key,
@@ -21,17 +25,27 @@ import {
   Lock,
   LockOutlined,
   Mail,
+  ModeCommentOutlined,
+  MoreHoriz,
+  SendOutlined,
   SignpostOutlined,
 } from '@mui/icons-material'
 import {
+  AspectRatio,
+  Avatar,
   Box,
   Card,
   CardContent,
   CardCover,
+  CardOverflow,
   Chip,
+  Container,
   Divider,
   IconButton,
   LinearProgress,
+  List,
+  ListItem,
+  ListItemDecorator,
   Snackbar,
   Stack,
   useColorScheme,
@@ -47,6 +61,8 @@ import Lightbox from 'yet-another-react-lightbox'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import NextJsImage from '@/components/NextJsImage'
 import { getServerSession } from 'next-auth'
+import { SxProps } from '@mui/joy/styles/types'
+import Image from 'next/image'
 
 function ModeToggle(props: any) {
   const { mode, setMode } = useColorScheme()
@@ -239,13 +255,11 @@ function CardLayers3d() {
     </Box>
   )
 }
-export default  function Home() {
+export default function Home() {
   const { mode } = useColorScheme()
-  const imageSizes = [16, 32, 48, 64, 96, 128, 256, 384];
-const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
-  const [openLb,setOpenLb] = React.useState(true);
-
-
+  const imageSizes = [16, 32, 48, 64, 96, 128, 256, 384]
+  const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+  const [openLb, setOpenLb] = React.useState(true)
 
   const particlesInitCb = useCallback(async (engine: any) => {
     console.log('callback')
@@ -300,21 +314,21 @@ const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
   )
   const session = useSession()
 
-    console.log(session)
+  console.log(session)
   if (!session.status) {
     return <p>Access Denied</p>
-  }  console.log(session)
+  }
+  console.log(session)
   return (
-
     <Box
       display='flex'
       flexDirection='column'
       gap='2rem'
       width='100%'
       sx={{ my: '4rem' }}
-      
     >
-       <div>{session.data?.user?.email}</div>
+      <div>{session.data?.user?.email}</div>
+      <ModeToggle />
       <Sheet
         sx={{
           display: 'flex',
@@ -366,7 +380,7 @@ const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
           </BorderWithCornerCircles>
         </Box> */}
         {init && <Particles id='tsparticles' options={options} />}
-      
+
         <Box
           display='flex'
           sx={{
@@ -451,8 +465,12 @@ const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
                     Just one click
                   </Typography>
                 </Typography>
-                <Button variant='plain' >
-                  <Typography sx={{color:'#4ADE80'}} level='h4' fontSize='lg'>
+                <Button variant='plain'>
+                  <Typography
+                    sx={{ color: '#4ADE80' }}
+                    level='h4'
+                    fontSize='lg'
+                  >
                     Next &gt;
                   </Typography>
                 </Button>
@@ -525,6 +543,8 @@ const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
             }}
           >
             <Typography
@@ -543,6 +563,51 @@ const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
             >
               Explore the geospatial solutions for your business
             </Typography>
+            <Box
+              marginTop={26}
+              display='flex'
+              justifyContent='center'
+              width='100%'
+              gap={8}
+            >
+              {[1, 2, 3].map((index) => (
+                <Card size='lg' sx={{ width: '20%' }}>
+                  <CardOverflow>
+                    <AspectRatio ratio='2'>
+                      <img
+                        src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
+                        srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
+                        loading='lazy'
+                      />
+                    </AspectRatio>
+                  </CardOverflow>
+                  <Chip size='sm' variant='outlined' color='neutral'>
+                    BASIC
+                  </Chip>
+
+                  <Divider inset='none' />
+                  <Typography level='h3' textAlign='center'>
+                    Virtual Credit Cards {index}
+                  </Typography>
+                  <List
+                    size='sm'
+                    sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                      <ListItem key={index}>
+                        <ListItemDecorator>
+                          <Check color='success' />
+                        </ListItemDecorator>
+
+                        <Typography level='h4' fontSize='lg'>
+                          Virtual Credit Cards {index}
+                        </Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Card>
+              ))}
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -624,49 +689,336 @@ const deviceSizes = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
           </Box>
         </Box>
       </Box>
+      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE' imageUrl='planet-earth-background.jpg'>
+      <Card
+      variant="outlined"
+      sx={{
+        width: 500,
+        
+        '--Card-radius': (theme) => theme.vars.radius.xs,
+      }}
+    >
+      <CardContent orientation="horizontal" sx={{ alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              m: '-2px',
+              borderRadius: '50%',
+              background:
+                'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)',
+            },
+          }}
+        >
+          <Avatar
+            size="sm"
+            src="/static/logo.png"
+            sx={{ p: 0.5, border: '2px solid', borderColor: 'background.body' }}
+          />
+        </Box>
+        <Typography fontWeight="lg">MUI</Typography>
+        <IconButton variant="plain" color="neutral" size="sm" sx={{ ml: 'auto' }}>
+          <MoreHoriz />
+        </IconButton>
+      </CardContent>
+      <CardOverflow>
+        <AspectRatio>
+          <img src="o_nas.jpg" alt="" loading="lazy" />
+        </AspectRatio>
+      </CardOverflow>
+      <CardContent orientation="horizontal" sx={{ alignItems: 'center', mx: -1 }}>
+        <Box sx={{ width: 0, display: 'flex', gap: 0.5 }}>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <FavoriteBorder />
+          </IconButton>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <ModeCommentOutlined />
+          </IconButton>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <SendOutlined />
+          </IconButton>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mx: 'auto' }}>
+          {[...Array(5)].map((_, index) => (
+            <Box
+              key={index}
+              sx={{
+                borderRadius: '50%',
+                width: `max(${6 - index}px, 3px)`,
+                height: `max(${6 - index}px, 3px)`,
+                bgcolor: index === 0 ? 'primary.solidBg' : 'background.level3',
+              }}
+            />
+          ))}
+        </Box>
+        <Box sx={{ width: 0, display: 'flex', flexDirection: 'row-reverse' }}>
+          <IconButton variant="plain" color="neutral" size="sm">
+            <BookmarkAddOutlined />
+          </IconButton>
+        </Box>
+      </CardContent>
+      <CardContent>
+        <Link
+          component="button"
+          underline="none"
+          fontSize="sm"
+          fontWeight="lg"
+          textColor="text.primary"
+        >
+          8.1M Likes
+        </Link>
+        <Typography fontSize="sm">
+          <Link
+            component="button"
+            color="neutral"
+            fontWeight="lg"
+            textColor="text.primary"
+          >
+            💻 О НАС 💻
+          </Link>{' '}
+          Мы - команда страстных и целеустремленных IT-гуру, которые живут и дышат кодом! <br/>👨‍💻👩‍💻 Наша компания была основана в 2015 году, и с тех пор мы воплощаем в жизнь инновационные идеи и создаем передовые цифровые решения для наших клиентов.
 
+В нашей команде работают лучшие таланты со всего мира, объединенные общей страстью к технологиям. <br/> 🌍 Мы гордимся нашей разносторонностью и уникальным подходом к каждому проекту. Вместе мы создаем удивительные продукты, которые меняют правила игры!
+
+Присоединяйтесь к нашей IT-семье и откройте для себя новые горизонты цифрового мира! 🚀
+        </Typography>
+     
+        <Link
+          component="button"
+          underline="none"
+          fontSize="10px"
+          sx={{ color: 'text.tertiary', my: 0.5 }}
+        >
+          1 ДЕНЬ НАЗАД
+        </Link>
+      </CardContent>
+      <CardContent orientation="horizontal" sx={{ gap: 1 }}>
+        <IconButton size="sm" variant="plain" color="neutral" sx={{ ml: -1 }}>
+          <Face />
+        </IconButton>
+        <Input
+          variant="plain"
+          size="sm"
+          placeholder="Add a comment…"
+          sx={{ flex: 1, px: 0, '--Input-focusedThickness': '0px' }}
+        />
+        <Link disabled underline="none" role="button">
+          Post
+        </Link>
+      </CardContent>
+    </Card>
+        </LandingBlock>
+      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
+        <Stack gap='2rem'>
+          <ImageWithContent
+            imageAlt=''
+            imageSource='map.jpg'
+            contentPosition={{ bottom: 0, right: 0 }}
+          >
+            <WideCard />
+          </ImageWithContent>
+          <ImageWithContent
+            imageAlt=''
+            imageSource='map.jpg'
+            contentPosition={{ top: 0, left: 0 }}
+          >
+            <WideCard />
+          </ImageWithContent>
+        </Stack>
+      </LandingBlock>
+    </Box>
+  )
+}
+
+interface LandingBlockProps {
+  containerSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false
+  subHeader?: string
+  header?: string
+  imageUrl?: string
+  blockSx?: SxProps
+  children?: React.ReactNode
+}
+const LandingBlock: React.FC<LandingBlockProps> = ({
+  children,
+  blockSx,
+  containerSize = 'xl',
+  header,
+  subHeader,
+  imageUrl,
+}) => {
+  return (
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundImage: `url(${imageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        ...blockSx,
+      }}
+    >
+      <Container maxWidth={containerSize}>
+        <Typography
+          level='h4'
+          sx={{
+            fontWeight: 'bold',
+            textAlign: 'center',
+          }}
+        >
+          {subHeader}
+        </Typography>
+        <Typography
+          level='h1'
+          sx={{
+            textAlign: 'center',
+
+            marginBottom: '32px',
+          }}
+        >
+          {header}
+        </Typography>
+
+        {children}
+      </Container>
+    </Box>
+  )
+}
+interface ImageWithContentProps {
+  children?: React.ReactNode
+  imageSource: string
+  imageAlt: string
+  contentPosition?: {
+    top?: number | string
+    left?: number | string
+    bottom?: number | string
+    right?: number | string
+  }
+}
+
+const ImageWithContent: React.FC<ImageWithContentProps> = ({
+  children,
+  imageSource,
+  imageAlt,
+  contentPosition,
+  ...boxProps
+}) => {
+  return (
+    <Box
+      sx={{
+        position: {
+          xs: 'unset',
+          md: 'relative',
+        },
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: {
+          xs: 'auto',
+          md: '100%',
+        },
+        '& img': {
+          width: '100%',
+          height: {
+            xs: 'auto',
+            md: '100%',
+          },
+          objectFit: 'cover',
+        },
+      }}
+      {...boxProps}
+    >
+      <img src={imageSource} alt={imageAlt} />
       <Box
         sx={{
-          width: '100%',
-
-          height: '100vh',
+          position: {
+            xs: 'unset',
+            md: 'absolute',
+          },
+          top: contentPosition?.top,
+          left: contentPosition?.left,
+          bottom: contentPosition?.bottom,
+          right: contentPosition?.right,
+          padding: {
+            xs: '16px',
+            md: '32px',
+          },
         }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            my: '2rem',
-          }}
-        >
-          <Typography
-            level='h2'
-            color='primary'
-            maxWidth={400}
-            textAlign='center'
-          >
-            Space solutions for Earth problems
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: 'grid',
-            gap: '2rem',
-            gridTemplateColumns: '1fr fit-content(20%)',
-            placeItems: 'center',
-            maxWidth: '80%',
-            margin: 'auto',
-          }}
-        >
-          <LicenseCard />
-          <LicenseCard />
-          <LicenseCard />
-          <LicenseCard />
-          <LicenseCard />
-          <LicenseCard />
-        </Box>
+        {children}
       </Box>
     </Box>
+  )
+}
+
+interface WideCardProps {
+  children?: React.ReactNode
+}
+
+const WideCard: React.FC<WideCardProps> = ({ children }) => {
+  return (
+    <Card
+      size='lg'
+      variant='plain'
+      orientation='horizontal'
+      sx={{
+        textAlign: 'center',
+        maxWidth: '100%',
+        width: 500,
+        // to make the demo resizable
+        resize: 'horizontal',
+        overflow: 'auto',
+      }}
+    >
+      <CardOverflow
+        variant='solid'
+        color='success'
+        sx={{
+          flex: '0 0 200px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          px: 'var(--Card-padding)',
+        }}
+      >
+        <Typography fontSize='xl4' fontWeight='xl' textColor='#fff'>
+          89
+        </Typography>
+        <Typography textColor='primary.200'>
+          FAQs answered, see if yours is one of them.
+        </Typography>
+      </CardOverflow>
+      <CardContent sx={{ gap: 1.5, minWidth: 200 }}>
+        <AspectRatio ratio='19/8' objectFit='contain' variant='plain'>
+          <img
+            alt=''
+            src='https://static.vecteezy.com/system/resources/previews/006/409/485/original/people-thinking-to-make-decision-problem-solving-and-find-creative-ideas-with-question-mark-in-flat-cartoon-background-for-poster-illustration-vector.jpg'
+          />
+        </AspectRatio>
+        <CardContent>
+          <Typography level='title-lg'>Need Some Help?</Typography>
+          <Typography fontSize='sm' sx={{ mt: 0.5 }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor.
+          </Typography>
+        </CardContent>
+        <Button
+          variant='outlined'
+          color='primary'
+          sx={{
+            '--variant-borderWidth': '2px',
+            borderRadius: 40,
+            borderColor: 'primary.500',
+            mx: 'auto',
+          }}
+        >
+          See FAQ
+        </Button>
+      </CardContent>
+    </Card>
   )
 }
