@@ -329,6 +329,7 @@ export default function Home() {
       sx={{ my: '4rem' }}
     >
       <div>{session.data?.user?.email}</div>
+ 
       <ModeToggle />
       <Sheet
         sx={{
@@ -341,45 +342,6 @@ export default function Home() {
           position: 'relative,',
         }}
       >
-        {/* <Box
-          sx={{
-            position: 'absolute',
-            left: '70%',
-            top: '8%',
-            display: { xs: 'none', md: 'block' },
-          }}
-        >
-          <BorderWithCornerCircles variant='plain' color='#0B6BCB'>
-            <Typography level='h2'>Login</Typography>
-            <Typography level='h4'>For using our services</Typography>
-          </BorderWithCornerCircles>
-        </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            left: '55%',
-            top: '1%',
-            display: { xs: 'none', md: 'block' },
-          }}
-        >
-          <BorderWithCornerCircles color='#0B6BCB'>
-            <Typography level='h2'>Resource Management</Typography>
-            <Typography level='h4'>Manage your farm, data and agro.</Typography>
-          </BorderWithCornerCircles>
-        </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            left: '39%',
-            top: '6%',
-            display: { xs: 'none', md: 'block' },
-          }}
-        >
-          <BorderWithCornerCircles color='#0B6BCB'>
-            <Typography level='h2'>Data Management</Typography>
-            <Typography level='h4'>Load or Import your own data</Typography>
-          </BorderWithCornerCircles>
-        </Box> */}
         {init && <Particles id='tsparticles' options={options} />}
 
         <Box
@@ -483,30 +445,26 @@ export default function Home() {
         </Box>
       </Sheet>
 
-      <Box
-        sx={{
-          width: '95%',
-          margin: 'auto',
-        }}
-      >
-        <Box
-          display='flex'
-          sx={{
-            p: 2,
-            alignItems: 'center',
-            flexDirection: { xs: 'column', md: 'row' },
-          }}
-        >
-          <Box p={2}>
+      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
+        <TwoSideComponent>
+          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <Typography
               level='h2'
               color='primary'
-              marginBottom={4}
+              marginBottom='4'
               maxWidth={400}
+              textAlign='right'
+              alignSelf='self-end'
             >
-              Space solutions for Earth problems
+              Space solutions
             </Typography>
-            <Typography level='h4' fontSize='md' maxWidth={500}>
+            <Typography
+              level='h2'
+              fontSize='md'
+              textAlign='right'
+              alignSelf='self-end'
+              maxWidth={500}
+            >
               EOS Data Analytics is one of the leading global geospatial
               analytics providers on the market, partnering with governmental,
               commercial, and scientific organizations. EOSDA creates
@@ -518,102 +476,86 @@ export default function Home() {
             </Typography>
           </Box>
           <Box borderRadius='45px' overflow='hidden'>
-            // eslint-disable-next-line jsx-a11y/alt-text
             <img src='map.jpg' width='100%' />
           </Box>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          width: '100%',
-
-          height: '100vh',
-        }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-
-            justifyContent: 'center',
-            my: '2rem',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <Typography
-              level='h4'
-              color='success'
-              maxWidth={400}
-              textAlign='center'
-            >
-              OUR PRODUCTS
-            </Typography>
+        </TwoSideComponent>
+        <TwoSideComponent>
+          <Box borderRadius='45px' overflow='hidden'>
+            <img src='map.jpg' width='100%' />
+          </Box>
+          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <Typography
               level='h2'
               color='primary'
+              marginBottom='4'
               maxWidth={400}
-              textAlign='center'
             >
-              Explore the geospatial solutions for your business
+              Space solutions
             </Typography>
-            <Box
-              marginTop={26}
-              display='flex'
-              justifyContent='center'
-              width='100%'
-              gap={8}
-            >
-              {[1, 2, 3].map((index) => (
-                <Card size='lg' sx={{ width: '20%' }}>
-                  <CardOverflow>
-                    <AspectRatio ratio='2'>
-                      <img
-                        src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
-                        srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
-                        loading='lazy'
-                      />
-                    </AspectRatio>
-                  </CardOverflow>
-                  <Chip size='sm' variant='outlined' color='neutral'>
-                    BASIC
-                  </Chip>
-
-                  <Divider inset='none' />
-                  <Typography level='h3' textAlign='center'>
-                    Virtual Credit Cards {index}
-                  </Typography>
-                  <List
-                    size='sm'
-                    sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
-                      <ListItem key={index}>
-                        <ListItemDecorator>
-                          <Check color='success' />
-                        </ListItemDecorator>
-
-                        <Typography level='h4' fontSize='lg'>
-                          Virtual Credit Cards {index}
-                        </Typography>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Card>
-              ))}
-            </Box>
+            <Typography level='h2' fontSize='md' maxWidth={500}>
+              EOS Data Analytics is one of the leading global geospatial
+              analytics providers on the market, partnering with governmental,
+              commercial, and scientific organizations. EOSDA creates
+              satellite-driven solutions for agriculture, forestry, and mining,
+              while also actively exploring 22 more industries. The Company sees
+              its mission as helping businesses around the world become more
+              sustainable via innovative precision observation and data
+              analytics tools.
+            </Typography>
           </Box>
-        </Box>
-      </Box>
+        </TwoSideComponent>
+      </LandingBlock>
 
-    
+      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
+        <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Stack
+            direction='row'
+            width='100%'
+            justifyContent='center'
+            alignItems='center'
+            spacing={2}
+          >
+            {[1, 2, 3].map((index) => (
+              <Card size='lg' sx={{ width: '450px' }}>
+                <CardOverflow>
+                  <AspectRatio ratio='2'>
+                    <img
+                      src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
+                      srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
+                      loading='lazy'
+                    />
+                  </AspectRatio>
+                </CardOverflow>
+                <Chip size='sm' variant='outlined' color='neutral'>
+                  BASIC
+                </Chip>
+
+                <Divider inset='none' />
+                <Typography level='h3' textAlign='center'>
+                  Virtual Credit Cards {index}
+                </Typography>
+                <List
+                  size='sm'
+                  sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                    <ListItem key={index}>
+                      <ListItemDecorator>
+                        <Check color='success' />
+                      </ListItemDecorator>
+
+                      <Typography level='h4' fontSize='lg'>
+                        Virtual Credit Cards {index}
+                      </Typography>
+                    </ListItem>
+                  ))}
+                </List>
+              </Card>
+            ))}
+          </Stack>
+        </Box>
+      </LandingBlock>
+
       <LandingBlock
         containerSize='xl'
         header='HELLO'
@@ -743,6 +685,28 @@ interface ImageWithContentProps {
   }
 }
 
+interface TwoSideComponentProps {
+  children: React.ReactNode[]
+}
+const TwoSideComponent: React.FC<TwoSideComponentProps> = ({ children }) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '2rem',
+        flexDirection: {
+          xs: 'column',
+          md: 'row',
+        },
+      }}
+    >
+      <Box sx={{ flex: 1 }}> {children[0]}</Box>
+      <Box sx={{ flex: 1 }}> {children[1]}</Box>
+    </Box>
+  )
+}
 const ImageWithContent: React.FC<ImageWithContentProps> = ({
   children,
   imageSource,

@@ -4,7 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -57,11 +56,15 @@ model User {
     name          String?
     email         String?   @unique
     emailVerified DateTime?
-    password      String
+    password      String?
     image         String?
-//    posts         Post[]
-    accounts      Account[]
-    sessions      Session[]
+
+    roleId        Int
+    role          Role      @relation(fields: [roleId], references: [id])
+
+    //    posts         Post[]
+    accounts Account[]
+    sessions Session[]
 }
 
 model VerificationToken {
@@ -71,4 +74,19 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+
+
+model Role {
+    id          Int          @id @default(autoincrement())
+    name        String       @unique
+    users       User[]
+    permissions Permission[]
+}
+
+model Permission {
+    id     Int    @id @default(autoincrement())
+    name   String @unique
+    role   Role[]
 }
