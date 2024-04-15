@@ -93,8 +93,8 @@ const BorderWithCornerCircles = ({
   ...props
 }) => {
   const circleStyle = {
-    width: '8px',
-    height: '8px',
+    width: '14px',
+    height: '14px',
     backgroundColor: color,
     borderRadius: '50%',
     position: 'absolute',
@@ -104,9 +104,8 @@ const BorderWithCornerCircles = ({
     <Sheet
       variant={variant}
       sx={{
-        border: `2px solid ${color}`,
-        width: '100%',
-        height: '100%',
+        border: `2px dashed ${color}`,
+       
         p: 3,
         position: 'relative',
         opacity: '100%',
@@ -115,10 +114,10 @@ const BorderWithCornerCircles = ({
       }}
       {...props}
     >
-      <Box sx={{ ...circleStyle, top: '-4px', left: '-4px' }} />
-      <Box sx={{ ...circleStyle, top: '-4px', right: '-4px' }} />
-      <Box sx={{ ...circleStyle, bottom: '-4px', left: '-4px' }} />
-      <Box sx={{ ...circleStyle, bottom: '-4px', right: '-4px' }} />
+      <Box sx={{ ...circleStyle, top: '-7px', left: '-7px' }} />
+      <Box sx={{ ...circleStyle, top: '-7px', right: '-7px' }} />
+      <Box sx={{ ...circleStyle, bottom: '-7px', left: '-7px' }} />
+      <Box sx={{ ...circleStyle, bottom: '-7px', right: '-7px' }} />
       {children}
     </Sheet>
   )
@@ -328,19 +327,9 @@ export default function Home() {
       width='100%'
       sx={{ my: '4rem' }}
     >
-      <div>{session.data?.user?.email}</div>
- 
-      <ModeToggle />
-      <Sheet
-        sx={{
-          display: 'flex',
-          flexFlow: 'row nowrap',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100vh',
-
-          position: 'relative,',
-        }}
+   
+      <LandingBlock
+       containerSize='xl'
       >
         {init && <Particles id='tsparticles' options={options} />}
 
@@ -443,7 +432,7 @@ export default function Home() {
 
           <CardLayers3d />
         </Box>
-      </Sheet>
+      </LandingBlock>
 
       <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
         <TwoSideComponent>
@@ -484,13 +473,16 @@ export default function Home() {
             <img src='map.jpg' width='100%' />
           </Box>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            <Typography
-              level='h2'
-              color='primary'
-              marginBottom='4'
-              maxWidth={400}
-            >
-              Space solutions
+            <DottedList>
+            <Typography level='h2' fontSize='md' maxWidth={500}>
+              EOS Data Analytics is one of the leading global geospatial
+              analytics providers on the market, partnering with governmental,
+              commercial, and scientific organizations. EOSDA creates
+              satellite-driven solutions for agriculture, forestry, and mining,
+              while also actively exploring 22 more industries. The Company sees
+              its mission as helping businesses around the world become more
+              sustainable via innovative precision observation and data
+              analytics tools.
             </Typography>
             <Typography level='h2' fontSize='md' maxWidth={500}>
               EOS Data Analytics is one of the leading global geospatial
@@ -502,11 +494,14 @@ export default function Home() {
               sustainable via innovative precision observation and data
               analytics tools.
             </Typography>
+            </DottedList>
+         
+           
           </Box>
         </TwoSideComponent>
       </LandingBlock>
 
-      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
+      {/* <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
         <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center' }}>
           <Stack
             direction='row'
@@ -554,13 +549,12 @@ export default function Home() {
             ))}
           </Stack>
         </Box>
-      </LandingBlock>
+      </LandingBlock> */}
 
       <LandingBlock
         containerSize='xl'
         header='HELLO'
         subHeader='AEEEEEE'
-        imageUrl='planet-earth-background.jpg'
       >
         <Box
           sx={{
@@ -568,15 +562,16 @@ export default function Home() {
             justifyContent: 'center',
             height: '100%',
             margin: 'auto',
-            width: '70%',
+            width: '100%',
 
             flexWrap: 'wrap',
 
             gap: 4,
-            mt: '16rem',
+            mt: '10rem',
           }}
         >
           {Array.from({ length: 6 }, (_, index) => (
+              <BorderWithCornerCircles>
             <Card
               variant='plain'
               key={index}
@@ -596,6 +591,7 @@ export default function Home() {
                 </Typography>
               </CardContent>
             </Card>
+            </BorderWithCornerCircles>
           ))}
         </Box>
       </LandingBlock>
@@ -683,6 +679,52 @@ interface ImageWithContentProps {
     bottom?: number | string
     right?: number | string
   }
+}
+
+interface DottedListProps {
+  children: React.ReactNode[]
+}
+const DottedList: React.FC<DottedListProps> = ({children}) => {
+  return (
+    <Stack gap={2}>
+      {
+        children.map(e => (
+          <Box sx={{
+            position: 'relative',
+            paddingLeft: '2rem',
+            '& :before' : {
+              top: '24px',
+              left: '4px',
+              content: '""',
+              position: 'absolute',
+              transform: 'none',
+              height: '80%',
+              width: '2px',
+              backgroundImage: 'linear-gradient(180deg,#4ADE80 60%,transparent 0),linear-gradient(180deg,#4ADE80 60%,transparent 0)',
+              backgroundPosition: '0',
+              backgroundRepeat: 'repeat-y,repeat-y',
+              backgroundSize: '2px 8px,2px 8px'
+            }
+          }}>
+           {e}
+           <Box sx={{
+              position: 'absolute',
+              content: '""',
+              width: '10px',
+              height: '10px',
+              left: '0',
+              top: '0',
+              transform: 'translateY(.4em)',
+              borderRadius: '16px',
+              backgroundColor: '#4ADE80'
+          }}/>
+          </Box>
+        ))
+      }
+   
+   
+    </Stack>
+  )
 }
 
 interface TwoSideComponentProps {

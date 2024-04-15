@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    webpack(config){
+      config.module.rules.push({
+        test: /\.geojson$/,
+        use: ["json-loader"]
+      });
+      return config;
+    },
     async headers() {
         return [
             {
@@ -7,8 +14,7 @@ const nextConfig = {
                 headers: [
                   { key: 'X-Hello', value: 'World' },
                   // Disallow cross-origin for the middleware
-                  { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
-                  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+     
                 ],
               },
         ]
