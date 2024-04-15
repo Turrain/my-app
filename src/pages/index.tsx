@@ -12,10 +12,14 @@ import { useSession, getSession } from 'next-auth/react'
 import Link from '@mui/joy/Link'
 import './index.css'
 import {
+  ArrowForward,
   BookmarkAddOutlined,
   Check,
+  ColorLensRounded,
   DarkMode,
+  EmailOutlined,
   Face,
+  FacebookOutlined,
   FavoriteBorder,
   GitHub,
   Google,
@@ -46,7 +50,9 @@ import {
   LinearProgress,
   List,
   ListItem,
+  ListItemButton,
   ListItemDecorator,
+  ListSubheader,
   Snackbar,
   Stack,
   useColorScheme,
@@ -62,7 +68,7 @@ import Lightbox from 'yet-another-react-lightbox'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import NextJsImage from '@/components/NextJsImage'
 import { getServerSession } from 'next-auth'
-import { SxProps } from '@mui/joy/styles/types'
+import { ColorPaletteProp, SxProps } from '@mui/joy/styles/types'
 import Image from 'next/image'
 
 function ModeToggle(props: any) {
@@ -93,8 +99,8 @@ const BorderWithCornerCircles = ({
   ...props
 }) => {
   const circleStyle = {
-    width: '8px',
-    height: '8px',
+    width: '14px',
+    height: '14px',
     backgroundColor: color,
     borderRadius: '50%',
     position: 'absolute',
@@ -104,10 +110,8 @@ const BorderWithCornerCircles = ({
     <Sheet
       variant={variant}
       sx={{
-        border: `2px solid ${color}`,
-        width: '100%',
-        height: '100%',
-        p: 3,
+        border: `2px dashed ${color}`,
+        p: 2.5,
         position: 'relative',
         opacity: '100%',
         borderRadius: '10px',
@@ -115,10 +119,10 @@ const BorderWithCornerCircles = ({
       }}
       {...props}
     >
-      <Box sx={{ ...circleStyle, top: '-4px', left: '-4px' }} />
-      <Box sx={{ ...circleStyle, top: '-4px', right: '-4px' }} />
-      <Box sx={{ ...circleStyle, bottom: '-4px', left: '-4px' }} />
-      <Box sx={{ ...circleStyle, bottom: '-4px', right: '-4px' }} />
+      <Box sx={{ ...circleStyle, top: '-7px', left: '-7px' }} />
+      <Box sx={{ ...circleStyle, top: '-7px', right: '-7px' }} />
+      <Box sx={{ ...circleStyle, bottom: '-7px', left: '-7px' }} />
+      <Box sx={{ ...circleStyle, bottom: '-7px', right: '-7px' }} />
       {children}
     </Sheet>
   )
@@ -326,11 +330,9 @@ export default function Home() {
       flexDirection='column'
       gap='2rem'
       width='100%'
-      sx={{ my: '4rem' }}
+   
     >
-      <div>{session.data?.user?.email}</div>
-      <ModeToggle />
-      <Sheet
+      <Box
         sx={{
           display: 'flex',
           flexFlow: 'row nowrap',
@@ -401,7 +403,7 @@ export default function Home() {
               variant='plain'
             >
               <Typography level='h1' maxWidth={400}>
-                EOS Data Analytics:
+                AGRO GIS:
               </Typography>
               <Box
                 sx={{
@@ -416,7 +418,7 @@ export default function Home() {
                   sx={{ color: '#4ADE80', textAlign: 'end' }}
                   maxWidth={400}
                 >
-                  Space solutions for Earth problems
+                  Космические решения для Земных проблем
                 </Typography>
               </Box>
               <Typography
@@ -430,16 +432,15 @@ export default function Home() {
                   borderRight: '2px solid #4ADE80',
                 }}
               >
-                The normalized difference vegetation index (NDVI) is a
-                widely-used metric for quantifying the health and density of
-                vegetation using sensor data. It is calculated from
+                Используя спутниковые данные и геоинформационные системы, AGRO
+                GIS предлагает инновационные решения для сельского хозяйства.
               </Typography>
             </BorderWithCornerCircles>
             <BorderWithCornerCircles color='#4ADE80' variant='plain'>
               <Typography level='h2' fontSize='md' maxWidth={480}>
-                The normalized difference vegetation index (NDVI) is a
-                widely-used metric for quantifying the health and density of
-                vegetation using sensor data. It is calculated from
+                Мощные аналитические возможности позволяют визуализировать
+                пространственные данные, выявлять проблемные зоны, рассчитывать
+                вегетационные индексы и строить прогнозные модели.
               </Typography>
             </BorderWithCornerCircles>
             <BorderWithCornerCircles color='#4ADE80' variant='plain'>
@@ -451,19 +452,19 @@ export default function Home() {
                 }}
               >
                 <Typography level='h3' textAlign='left'>
-                  Login &nbsp;
+                  Войдите &nbsp;
                   <ReactTyped
                     strings={[
-                      'to access data',
-                      'to access maps',
-                      'to help you',
+                      'для доступа к данным',
+                      'для доступа к картам',
+                      'для анализа',
                     ]}
                     typeSpeed={100}
                     loop
                   />
                   <br />
                   <Typography level='h4' fontSize='lg'>
-                    Just one click
+                    Просто одно нажатие
                   </Typography>
                 </Typography>
                 <Button variant='plain'>
@@ -472,7 +473,7 @@ export default function Home() {
                     level='h4'
                     fontSize='lg'
                   >
-                    Next &gt;
+                    Войти &gt;
                   </Typography>
                 </Button>
               </Box>
@@ -481,182 +482,136 @@ export default function Home() {
 
           <CardLayers3d />
         </Box>
-      </Sheet>
+      </Box>
 
-      <Box
-        sx={{
-          width: '95%',
-          margin: 'auto',
-        }}
+      <LandingBlock
+        containerSize='xl'
+        header='Цифровое управление сельским хозяйством'
+        subHeader=''
       >
-        <Box
-          display='flex'
-          sx={{
-            p: 2,
-            alignItems: 'center',
-            flexDirection: { xs: 'column', md: 'row' },
-          }}
-        >
-          <Box p={2}>
+        <TwoSideComponent>
+          <Box
+            p={2}
+            width='100%'
+            sx={{ display: 'flex', flexDirection: 'column' }}
+          >
             <Typography
               level='h2'
               color='primary'
               marginBottom={4}
-              maxWidth={400}
+              maxWidth={500}
+              textAlign='right'
+              alignSelf='self-end'
             >
-              Space solutions for Earth problems
+              Эффективное решение для CХ предприятий
             </Typography>
-            <Typography level='h4' fontSize='md' maxWidth={500}>
-              EOS Data Analytics is one of the leading global geospatial
-              analytics providers on the market, partnering with governmental,
-              commercial, and scientific organizations. EOSDA creates
-              satellite-driven solutions for agriculture, forestry, and mining,
-              while also actively exploring 22 more industries. The Company sees
-              its mission as helping businesses around the world become more
-              sustainable via innovative precision observation and data
-              analytics tools.
+            <Typography
+              level='h4'
+              fontSize='md'
+              textAlign='right'
+              alignSelf='self-end'
+              maxWidth={500}
+            >
+              Наша информационная система позволяет осуществлять отслеживание
+              производственных процессов, анализ данных и аналитику, оптимизацию
+              ресурсов и затрат, а также повышение урожайности и рентабельности.
+              Она предоставляет комплексное решение для эффективного управления
+              сельскохозяйственными операциями, объединяя передовые технологии и
+              инструменты на одной платформе.
             </Typography>
           </Box>
           <Box borderRadius='45px' overflow='hidden'>
-            // eslint-disable-next-line jsx-a11y/alt-text
-            <img src='map.jpg' width='100%' />
+            <img src='gis_4.jpg' width='100%' />
           </Box>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          width: '100%',
+        </TwoSideComponent>
+        {/* ---------------- */}
+        <Divider sx={{ my: 4 }} />
+        <TwoSideComponent>
+          <Box borderRadius='45px' overflow='hidden'>
+            <img src='gis_2.jpg' width='100%' />
+          </Box>
 
-          height: '100vh',
-        }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-
-            justifyContent: 'center',
-            my: '2rem',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <Typography
-              level='h4'
-              color='success'
-              maxWidth={400}
-              textAlign='center'
-            >
-              OUR PRODUCTS
-            </Typography>
+          <DottedList>
             <Typography
               level='h2'
               color='primary'
-              maxWidth={400}
-              textAlign='center'
+              marginBottom={4}
+              maxWidth={500}
             >
-              Explore the geospatial solutions for your business
+              Внедрение инновационных технологий
             </Typography>
-            <Box
-              marginTop={26}
-              display='flex'
-              justifyContent='center'
-              width='100%'
-              gap={8}
-            >
-              {[1, 2, 3].map((index) => (
-                <Card size='lg' sx={{ width: '20%' }}>
-                  <CardOverflow>
-                    <AspectRatio ratio='2'>
-                      <img
-                        src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
-                        srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
-                        loading='lazy'
-                      />
-                    </AspectRatio>
-                  </CardOverflow>
-                  <Chip size='sm' variant='outlined' color='neutral'>
-                    BASIC
-                  </Chip>
-
-                  <Divider inset='none' />
-                  <Typography level='h3' textAlign='center'>
-                    Virtual Credit Cards {index}
-                  </Typography>
-                  <List
-                    size='sm'
-                    sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
-                      <ListItem key={index}>
-                        <ListItemDecorator>
-                          <Check color='success' />
-                        </ListItemDecorator>
-
-                        <Typography level='h4' fontSize='lg'>
-                          Virtual Credit Cards {index}
-                        </Typography>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Card>
-              ))}
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-
+            <Typography level='h4' fontSize='md' marginTop={1}>
+              Мониторинг полей и состояния посевов: Отслеживание состояния
+              почвы, влажности, температуры и других параметров с помощью
+              датчиков и спутниковых снимков. Получение актуальных данных для
+              принятия своевременных решений по внесению удобрений, защите
+              растений и другим агротехническим мероприятиям.
+            </Typography>
+            <Typography level='h4' fontSize='md' marginTop={1}>
+              Планирование и контроль агротехнических мероприятий: Составление
+              детальных планов работ с учетом особенностей полей, погодных
+              условий и наличия ресурсов. Контроль выполнения запланированных
+              операций, таких как вспашка, посев, внесение удобрений,
+              опрыскивание и сбор урожая. Отслеживание соблюдения
+              технологических карт и нормативов.
+            </Typography>
+            <Typography level='h4' fontSize='md' marginTop={1}>
+              Учёт и управление ресурсами: Ведение учета семян, удобрений,
+              средств защиты растений, топлива, техники и другого оборудования.
+              Оптимизация использования ресурсов на основе анализа данных,
+              предотвращение перерасхода и потерь. Планирование закупок и
+              поставок в соответствии с потребностями.
+            </Typography>
+            <Typography level='h4' fontSize='md' marginTop={1}>
+              Интеграция с системами точного земледелия: Синхронизация данных с
+              системами параллельного вождения, дифференциального внесения
+              удобрений, картирования урожайности и другими технологиями точного
+              земледелия. Обеспечение точной дозировки и равномерного
+              распределения ресурсов на основе карт полей.
+            </Typography>
+          </DottedList>
+        </TwoSideComponent>
+      </LandingBlock>
     
-      <LandingBlock
-        containerSize='xl'
-        header='HELLO'
-        subHeader='AEEEEEE'
-        imageUrl='planet-earth-background.jpg'
-      >
+      <LandingBlock containerSize='xl' header='СТАТИСТИКА' subHeader=''>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
             height: '100%',
             margin: 'auto',
-            width: '70%',
-
+            width: '100%',
             flexWrap: 'wrap',
-
             gap: 4,
-            mt: '16rem',
+            mt: '10rem',
           }}
         >
           {Array.from({ length: 6 }, (_, index) => (
-            <Card
-              variant='plain'
-              key={index}
-              sx={{
-                width: 320,
-                maxWidth: '100%',
-                backgroundColor: 'rgba(0,0,0,0.45)',
-              }}
-            >
-              <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
-                <Typography level='title-lg'>USER BASE</Typography>
-                <Typography level='h1'>100$+</Typography>
-                <Typography level='title-lg'>USERS</Typography>
+            <BorderWithCornerCircles key={index} variant='plain'>
+              <Card
+                variant='plain'
+                sx={{
+                  width: 300,
+                  maxWidth: '100%',
+                }}
+              >
+                <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
+                  <Typography level='title-lg'>USER BASE</Typography>
+                  <Typography level='h1' sx={{ color: '#4ADE80' }}>
+                    100$+
+                  </Typography>
+                  <Typography level='title-lg'>USERS</Typography>
 
-                <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
-                  1М+ end users are acting on our insights
-                </Typography>
-              </CardContent>
-            </Card>
+                  <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
+                    1М+ end users are acting on our insights
+                  </Typography>
+                </CardContent>
+              </Card>
+            </BorderWithCornerCircles>
           ))}
         </Box>
       </LandingBlock>
+
       <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
         <Stack gap='2rem'>
           <ImageWithContent
@@ -675,6 +630,168 @@ export default function Home() {
           </ImageWithContent>
         </Stack>
       </LandingBlock>
+      <MarketingBlock containerSize="xl">
+        <Typography level='h2'>Начните сейчас</Typography>
+        <Typography sx={{ mt: 0.5, mb: 2 }}>
+          Получите полный доступ
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            flexWrap: 'wrap',
+            maxWidth: 'max-content',
+            '& > *': { flexGrow: 1, fontWeight: 'lg' },
+          }}
+        >
+          <Button sx={{ minWidth: 120 }}>Войти</Button>
+          <Button
+            variant='plain'
+            endDecorator={<ArrowForward />}
+            sx={{
+              '&:hover': { '--Button-gap': '0.625rem' },
+              '& span': { transition: '0.15s' },
+            }}
+          >
+            Свяжитесь с нами
+          </Button>
+        </Box>
+      </MarketingBlock>
+
+
+
+
+      <Sheet
+      variant="plain"
+     
+      invertedColors
+      sx={{
+       
+        flexGrow: 1,
+        p: 2,
+        borderRadius: { xs: 0, sm: 'sm' },
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+       
+        <Divider orientation="vertical" />
+        <IconButton variant="plain">
+          <FacebookOutlined />
+        </IconButton>
+        <IconButton variant="plain">
+          <EmailOutlined />
+        </IconButton>
+        <Input
+          variant="soft"
+          placeholder="Type in your email"
+          type="email"
+          name="email"
+          endDecorator={
+            <IconButton variant="soft" aria-label="subscribe">
+              <SendOutlined />
+            </IconButton>
+          }
+          sx={{ ml: 'auto', display: { xs: 'none', md: 'flex' } }}
+        />
+      </Box>
+      <Divider sx={{ my: 2 }} />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: { md: 'flex-start' },
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 2,
+        }}
+      >
+        
+        <List
+          size="sm"
+          orientation="horizontal"
+          wrap
+          sx={{ flexGrow: 0, '--ListItem-radius': '8px' }}
+        >
+          <ListItem nested sx={{ width: { xs: '50%', md: 140 } }}>
+            <ListSubheader sx={{ fontWeight: 'xl' }}>Sitemap</ListSubheader>
+            <List>
+              <ListItem>
+                <ListItemButton>Services</ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton>Blog</ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton>About</ListItemButton>
+              </ListItem>
+            </List>
+          </ListItem>
+          <ListItem nested sx={{ width: { xs: '50%', md: 180 } }}>
+            <ListSubheader sx={{ fontWeight: 'xl' }}>Products</ListSubheader>
+            <List>
+              <ListItem>
+                <ListItemButton>Joy UI</ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton>Base UI</ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton>Material UI</ListItemButton>
+              </ListItem>
+            </List>
+          </ListItem>
+        </List>
+      </Box>
+    </Sheet>
+    
+    </Box>
+  )
+}
+
+interface MarketingBlockProps {
+  children?: React.ReactNode[]
+  blockSx?: SxProps
+  imageUrl?: string
+  containerSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false
+}
+
+const MarketingBlock: React.FC<MarketingBlockProps> = ({
+  children,
+  blockSx,
+  imageUrl,
+  containerSize = 'xl',
+}) => {
+  return (
+    <Box
+      sx={{
+        minHeight: '20vh',
+        backgroundImage: `url(${imageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        ...blockSx,
+      }}
+    >
+      <Container maxWidth={containerSize}>
+        <Sheet
+          variant='solid'
+        
+          invertedColors
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            bgcolor: '#111',
+            p: { xs: '36px', md: '70px' },
+            pt: { xs: '24px', md: '60px' },
+            borderRadius: 'lg',
+            overflow: 'hidden',
+            '& button': { borderRadius: 'xl' },
+            border: "2px solid #4ADE80 "
+          }}
+        >
+          <Box sx={{ zIndex: 1, position: 'relative' }}>{children}</Box>
+        
+        </Sheet>
+      </Container>
     </Box>
   )
 }
@@ -731,6 +848,28 @@ const LandingBlock: React.FC<LandingBlockProps> = ({
     </Box>
   )
 }
+
+interface TwoSideComponentProps {
+  children: React.ReactNode[]
+}
+
+const TwoSideComponent: React.FC<TwoSideComponentProps> = ({ children }) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        gap: '2rem',
+        flexDirection: { xs: 'column', md: 'row' },
+      }}
+    >
+      <Box sx={{ flex: 1 }}>{children[0]}</Box>
+      <Box sx={{ flex: 1 }}>{children[1]}</Box>
+    </Box>
+  )
+}
+
 interface ImageWithContentProps {
   children?: React.ReactNode
   imageSource: string
@@ -800,6 +939,53 @@ const ImageWithContent: React.FC<ImageWithContentProps> = ({
 
 interface WideCardProps {
   children?: React.ReactNode
+}
+
+interface DottedListProps {
+  children?: React.ReactNode[]
+}
+const DottedList: React.FC<DottedListProps> = ({ children }) => {
+  return (
+    <Stack>
+      {children?.map((element, index) => (
+        <Box
+          key={index}
+          sx={{
+            position: 'relative',
+            paddingLeft: '2rem',
+            '&:before': {
+              content: '""',
+              position: 'absolute',
+              left: '4px',
+              top: '24px',
+              transform: 'none',
+              width: '5px',
+              height: '70%',
+              backgroundImage:
+                'linear-gradient(180deg,#4ADE80 60%,transparent 0),linear-gradient(180deg,#4ADE80 60%,transparent 0)',
+              backgroundRepeat: 'repeat-y,repeat-y',
+              backgroundSize: '2px 8px,2px 8px',
+            },
+          }}
+        >
+          {element}
+          <span
+            style={{
+              position: 'absolute',
+              content: '""',
+              width: '10px',
+              height: '10px',
+              left: '0',
+              top: '0',
+              transform: 'translateY(.4rem)',
+              backgroundColor: '#4ADE80',
+              borderRadius: '45px',
+            }}
+          ></span>
+        </Box>
+      ))}
+    </Stack>
+  )
 }
 
 const WideCard: React.FC<WideCardProps> = ({ children }) => {
