@@ -110,8 +110,10 @@ const BorderWithCornerCircles = ({
     <Sheet
       variant={variant}
       sx={{
-        border: `2px dashed ${color}`,
-        p: 2.5,
+        border: `2px solid ${color}`,
+        width: '100%',
+        height: '100%',
+        p: 3,
         position: 'relative',
         opacity: '100%',
         borderRadius: '10px',
@@ -332,7 +334,9 @@ export default function Home() {
       width='100%'
    
     >
-      <Box
+      <div>{session.data?.user?.email}</div>
+      <ModeToggle />
+      <Sheet
         sx={{
           display: 'flex',
           flexFlow: 'row nowrap',
@@ -482,132 +486,178 @@ export default function Home() {
 
           <CardLayers3d />
         </Box>
-      </Box>
+      </Sheet>
 
-      <LandingBlock
-        containerSize='xl'
-        header='Цифровое управление сельским хозяйством'
-        subHeader=''
+      <Box
+        sx={{
+          width: '95%',
+          margin: 'auto',
+        }}
       >
-        <TwoSideComponent>
+        <Box
+          display='flex'
+          sx={{
+            p: 2,
+            alignItems: 'center',
+            flexDirection: { xs: 'column', md: 'row' },
+          }}
+        >
+          <Box p={2}>
+            <Typography
+              level='h2'
+              color='primary'
+              marginBottom={4}
+              maxWidth={400}
+            >
+              Space solutions for Earth problems
+            </Typography>
+            <Typography level='h4' fontSize='md' maxWidth={500}>
+              EOS Data Analytics is one of the leading global geospatial
+              analytics providers on the market, partnering with governmental,
+              commercial, and scientific organizations. EOSDA creates
+              satellite-driven solutions for agriculture, forestry, and mining,
+              while also actively exploring 22 more industries. The Company sees
+              its mission as helping businesses around the world become more
+              sustainable via innovative precision observation and data
+              analytics tools.
+            </Typography>
+          </Box>
+          <Box borderRadius='45px' overflow='hidden'>
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <img src='map.jpg' width='100%' />
+          </Box>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+
+          height: '100vh',
+        }}
+      >
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+
+            justifyContent: 'center',
+            my: '2rem',
+          }}
+        >
           <Box
-            p={2}
-            width='100%'
-            sx={{ display: 'flex', flexDirection: 'column' }}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+            }}
           >
             <Typography
-              level='h2'
-              color='primary'
-              marginBottom={4}
-              maxWidth={500}
-              textAlign='right'
-              alignSelf='self-end'
-            >
-              Эффективное решение для CХ предприятий
-            </Typography>
-            <Typography
               level='h4'
-              fontSize='md'
-              textAlign='right'
-              alignSelf='self-end'
-              maxWidth={500}
+              color='success'
+              maxWidth={400}
+              textAlign='center'
             >
-              Наша информационная система позволяет осуществлять отслеживание
-              производственных процессов, анализ данных и аналитику, оптимизацию
-              ресурсов и затрат, а также повышение урожайности и рентабельности.
-              Она предоставляет комплексное решение для эффективного управления
-              сельскохозяйственными операциями, объединяя передовые технологии и
-              инструменты на одной платформе.
+              OUR PRODUCTS
             </Typography>
-          </Box>
-          <Box borderRadius='45px' overflow='hidden'>
-            <img src='gis_4.jpg' width='100%' />
-          </Box>
-        </TwoSideComponent>
-        {/* ---------------- */}
-        <Divider sx={{ my: 4 }} />
-        <TwoSideComponent>
-          <Box borderRadius='45px' overflow='hidden'>
-            <img src='gis_2.jpg' width='100%' />
-          </Box>
-
-          <DottedList>
             <Typography
               level='h2'
               color='primary'
-              marginBottom={4}
-              maxWidth={500}
+              maxWidth={400}
+              textAlign='center'
             >
-              Внедрение инновационных технологий
+              Explore the geospatial solutions for your business
             </Typography>
-            <Typography level='h4' fontSize='md' marginTop={1}>
-              Мониторинг полей и состояния посевов: Отслеживание состояния
-              почвы, влажности, температуры и других параметров с помощью
-              датчиков и спутниковых снимков. Получение актуальных данных для
-              принятия своевременных решений по внесению удобрений, защите
-              растений и другим агротехническим мероприятиям.
-            </Typography>
-            <Typography level='h4' fontSize='md' marginTop={1}>
-              Планирование и контроль агротехнических мероприятий: Составление
-              детальных планов работ с учетом особенностей полей, погодных
-              условий и наличия ресурсов. Контроль выполнения запланированных
-              операций, таких как вспашка, посев, внесение удобрений,
-              опрыскивание и сбор урожая. Отслеживание соблюдения
-              технологических карт и нормативов.
-            </Typography>
-            <Typography level='h4' fontSize='md' marginTop={1}>
-              Учёт и управление ресурсами: Ведение учета семян, удобрений,
-              средств защиты растений, топлива, техники и другого оборудования.
-              Оптимизация использования ресурсов на основе анализа данных,
-              предотвращение перерасхода и потерь. Планирование закупок и
-              поставок в соответствии с потребностями.
-            </Typography>
-            <Typography level='h4' fontSize='md' marginTop={1}>
-              Интеграция с системами точного земледелия: Синхронизация данных с
-              системами параллельного вождения, дифференциального внесения
-              удобрений, картирования урожайности и другими технологиями точного
-              земледелия. Обеспечение точной дозировки и равномерного
-              распределения ресурсов на основе карт полей.
-            </Typography>
-          </DottedList>
-        </TwoSideComponent>
-      </LandingBlock>
+            <Box
+              marginTop={26}
+              display='flex'
+              justifyContent='center'
+              width='100%'
+              gap={8}
+            >
+              {[1, 2, 3].map((index) => (
+                <Card size='lg' sx={{ width: '20%' }}>
+                  <CardOverflow>
+                    <AspectRatio ratio='2'>
+                      <img
+                        src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
+                        srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
+                        loading='lazy'
+                      />
+                    </AspectRatio>
+                  </CardOverflow>
+                  <Chip size='sm' variant='outlined' color='neutral'>
+                    BASIC
+                  </Chip>
+
+                  <Divider inset='none' />
+                  <Typography level='h3' textAlign='center'>
+                    Virtual Credit Cards {index}
+                  </Typography>
+                  <List
+                    size='sm'
+                    sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                      <ListItem key={index}>
+                        <ListItemDecorator>
+                          <Check color='success' />
+                        </ListItemDecorator>
+
+                        <Typography level='h4' fontSize='lg'>
+                          Virtual Credit Cards {index}
+                        </Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Card>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
     
-      <LandingBlock containerSize='xl' header='СТАТИСТИКА' subHeader=''>
+      <LandingBlock
+        containerSize='xl'
+        header='HELLO'
+        subHeader='AEEEEEE'
+        imageUrl='planet-earth-background.jpg'
+      >
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
             height: '100%',
             margin: 'auto',
-            width: '100%',
+            width: '70%',
+
             flexWrap: 'wrap',
             gap: 4,
             mt: '10rem',
           }}
         >
           {Array.from({ length: 6 }, (_, index) => (
-            <BorderWithCornerCircles key={index} variant='plain'>
-              <Card
-                variant='plain'
-                sx={{
-                  width: 300,
-                  maxWidth: '100%',
-                }}
-              >
-                <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
-                  <Typography level='title-lg'>USER BASE</Typography>
-                  <Typography level='h1' sx={{ color: '#4ADE80' }}>
-                    100$+
-                  </Typography>
-                  <Typography level='title-lg'>USERS</Typography>
+            <Card
+              variant='plain'
+              key={index}
+              sx={{
+                width: 320,
+                maxWidth: '100%',
+                backgroundColor: 'rgba(0,0,0,0.45)',
+              }}
+            >
+              <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
+                <Typography level='title-lg'>USER BASE</Typography>
+                <Typography level='h1'>100$+</Typography>
+                <Typography level='title-lg'>USERS</Typography>
 
-                  <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
-                    1М+ end users are acting on our insights
-                  </Typography>
-                </CardContent>
-              </Card>
-            </BorderWithCornerCircles>
+                <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
+                  1М+ end users are acting on our insights
+                </Typography>
+              </CardContent>
+            </Card>
           ))}
         </Box>
       </LandingBlock>
@@ -882,6 +932,74 @@ interface ImageWithContentProps {
   }
 }
 
+interface DottedListProps {
+  children: React.ReactNode[]
+}
+const DottedList: React.FC<DottedListProps> = ({children}) => {
+  return (
+    <Stack gap={2}>
+      {
+        children.map(e => (
+          <Box sx={{
+            position: 'relative',
+            paddingLeft: '2rem',
+            '& :before' : {
+              top: '24px',
+              left: '4px',
+              content: '""',
+              position: 'absolute',
+              transform: 'none',
+              height: '80%',
+              width: '2px',
+              backgroundImage: 'linear-gradient(180deg,#4ADE80 60%,transparent 0),linear-gradient(180deg,#4ADE80 60%,transparent 0)',
+              backgroundPosition: '0',
+              backgroundRepeat: 'repeat-y,repeat-y',
+              backgroundSize: '2px 8px,2px 8px'
+            }
+          }}>
+           {e}
+           <Box sx={{
+              position: 'absolute',
+              content: '""',
+              width: '10px',
+              height: '10px',
+              left: '0',
+              top: '0',
+              transform: 'translateY(.4em)',
+              borderRadius: '16px',
+              backgroundColor: '#4ADE80'
+          }}/>
+          </Box>
+        ))
+      }
+   
+   
+    </Stack>
+  )
+}
+
+interface TwoSideComponentProps {
+  children: React.ReactNode[]
+}
+const TwoSideComponent: React.FC<TwoSideComponentProps> = ({ children }) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '2rem',
+        flexDirection: {
+          xs: 'column',
+          md: 'row',
+        },
+      }}
+    >
+      <Box sx={{ flex: 1 }}> {children[0]}</Box>
+      <Box sx={{ flex: 1 }}> {children[1]}</Box>
+    </Box>
+  )
+}
 const ImageWithContent: React.FC<ImageWithContentProps> = ({
   children,
   imageSource,
