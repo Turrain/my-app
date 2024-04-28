@@ -9,22 +9,22 @@ import {
 } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import MessagesPaneHeader from './MessagesPaneHeader'
-import geojson_1 from '/public/geojson/geoBoundaries-KAZ-ADM1_simplified.geojson?raw'
+
+import geojson_1 from '/public/geojson/geoBoundaries-KAZ-ADM1_simplified.geojson'
 import React from 'react'
 import { EditControl } from 'react-leaflet-draw'
 import 'leaflet-draw/dist/leaflet.draw.css'
 import L, { LatLngTuple } from 'leaflet'
 import { Select, Option } from '@mui/joy'
+
 export default function Map() {
   const defaultStyle = { color: 'blue' }
   const hoverStyle = { color: 'red', 'z-index': 99 }
 
   const onEachFeature = (feature, layer) => {
- 
     layer.on({
       mouseover: (e) => {
         e.target.setStyle(hoverStyle)
-
       },
       mouseout: (e) => {
         e.target.setStyle(defaultStyle)
@@ -52,15 +52,14 @@ export default function Map() {
     [40.0196, 60.9237] as LatLngTuple,
     [50.1196, 72.0237] as LatLngTuple,
   ]
-  
+
   const [layer, setLayer] = React.useState('temp_new')
 
   return (
     <>
       <MessagesPaneHeader sender='fdfd' />
 
-      
-      <select >
+      <select>
         <option value='clouds_new'>Clouds</option>
         <option value='precipitation_new'>Precipitation</option>
         <option value='pressure_new'>Pressure</option>

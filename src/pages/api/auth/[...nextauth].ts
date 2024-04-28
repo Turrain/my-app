@@ -32,7 +32,7 @@ prismaAdapter.createUser = (data) => {
   })
 }
 
-const options: AuthOptions = {
+export const options: AuthOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")

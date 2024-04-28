@@ -105,7 +105,7 @@ const BorderWithCornerCircles = ({
       variant={variant}
       sx={{
         border: `2px dashed ${color}`,
-       
+
         p: 3,
         position: 'relative',
         opacity: '100%',
@@ -327,10 +327,7 @@ export default function Home() {
       width='100%'
       sx={{ my: '4rem' }}
     >
-   
-      <LandingBlock
-       containerSize='xl'
-      >
+      <LandingBlock containerSize='xl'>
         {init && <Particles id='tsparticles' options={options} />}
 
         <Box
@@ -474,29 +471,27 @@ export default function Home() {
           </Box>
           <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <DottedList>
-            <Typography level='h2' fontSize='md' maxWidth={500}>
-              EOS Data Analytics is one of the leading global geospatial
-              analytics providers on the market, partnering with governmental,
-              commercial, and scientific organizations. EOSDA creates
-              satellite-driven solutions for agriculture, forestry, and mining,
-              while also actively exploring 22 more industries. The Company sees
-              its mission as helping businesses around the world become more
-              sustainable via innovative precision observation and data
-              analytics tools.
-            </Typography>
-            <Typography level='h2' fontSize='md' maxWidth={500}>
-              EOS Data Analytics is one of the leading global geospatial
-              analytics providers on the market, partnering with governmental,
-              commercial, and scientific organizations. EOSDA creates
-              satellite-driven solutions for agriculture, forestry, and mining,
-              while also actively exploring 22 more industries. The Company sees
-              its mission as helping businesses around the world become more
-              sustainable via innovative precision observation and data
-              analytics tools.
-            </Typography>
+              <Typography level='h2' fontSize='md' maxWidth={500}>
+                EOS Data Analytics is one of the leading global geospatial
+                analytics providers on the market, partnering with governmental,
+                commercial, and scientific organizations. EOSDA creates
+                satellite-driven solutions for agriculture, forestry, and
+                mining, while also actively exploring 22 more industries. The
+                Company sees its mission as helping businesses around the world
+                become more sustainable via innovative precision observation and
+                data analytics tools.
+              </Typography>
+              <Typography level='h2' fontSize='md' maxWidth={500}>
+                EOS Data Analytics is one of the leading global geospatial
+                analytics providers on the market, partnering with governmental,
+                commercial, and scientific organizations. EOSDA creates
+                satellite-driven solutions for agriculture, forestry, and
+                mining, while also actively exploring 22 more industries. The
+                Company sees its mission as helping businesses around the world
+                become more sustainable via innovative precision observation and
+                data analytics tools.
+              </Typography>
             </DottedList>
-         
-           
           </Box>
         </TwoSideComponent>
       </LandingBlock>
@@ -551,11 +546,7 @@ export default function Home() {
         </Box>
       </LandingBlock> */}
 
-      <LandingBlock
-        containerSize='xl'
-        header='HELLO'
-        subHeader='AEEEEEE'
-      >
+      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
         <Box
           sx={{
             display: 'flex',
@@ -571,26 +562,26 @@ export default function Home() {
           }}
         >
           {Array.from({ length: 6 }, (_, index) => (
-              <BorderWithCornerCircles>
-            <Card
-              variant='plain'
-              key={index}
-              sx={{
-                width: 320,
-                maxWidth: '100%',
-                backgroundColor: 'rgba(0,0,0,0.45)',
-              }}
-            >
-              <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
-                <Typography level='title-lg'>USER BASE</Typography>
-                <Typography level='h1'>100$+</Typography>
-                <Typography level='title-lg'>USERS</Typography>
+            <BorderWithCornerCircles key={index}>
+              <Card
+                variant='plain'
+              
+                sx={{
+                  width: 320,
+                  maxWidth: '100%',
+                  backgroundColor: 'rgba(0,0,0,0.45)',
+                }}
+              >
+                <CardContent sx={{ alignItems: 'left', textAlign: 'left' }}>
+                  <Typography level='title-lg'>USER BASE</Typography>
+                  <Typography level='h1'>100$+</Typography>
+                  <Typography level='title-lg'>USERS</Typography>
 
-                <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
-                  1М+ end users are acting on our insights
-                </Typography>
-              </CardContent>
-            </Card>
+                  <Typography level='title-md' sx={{ maxWidth: '24ch' }}>
+                    1М+ end users are acting on our insights
+                  </Typography>
+                </CardContent>
+              </Card>
             </BorderWithCornerCircles>
           ))}
         </Box>
@@ -684,15 +675,15 @@ interface ImageWithContentProps {
 interface DottedListProps {
   children: React.ReactNode[]
 }
-const DottedList: React.FC<DottedListProps> = ({children}) => {
+const DottedList: React.FC<DottedListProps> = ({ children }) => {
   return (
     <Stack gap={2}>
-      {
-        children.map(e => (
-          <Box sx={{
+      {children.map((e, index) => (
+        <Box key={index}
+          sx={{
             position: 'relative',
             paddingLeft: '2rem',
-            '& :before' : {
+            '& :before': {
               top: '24px',
               left: '4px',
               content: '""',
@@ -700,14 +691,17 @@ const DottedList: React.FC<DottedListProps> = ({children}) => {
               transform: 'none',
               height: '80%',
               width: '2px',
-              backgroundImage: 'linear-gradient(180deg,#4ADE80 60%,transparent 0),linear-gradient(180deg,#4ADE80 60%,transparent 0)',
+              backgroundImage:
+                'linear-gradient(180deg,#4ADE80 60%,transparent 0),linear-gradient(180deg,#4ADE80 60%,transparent 0)',
               backgroundPosition: '0',
               backgroundRepeat: 'repeat-y,repeat-y',
-              backgroundSize: '2px 8px,2px 8px'
-            }
-          }}>
-           {e}
-           <Box sx={{
+              backgroundSize: '2px 8px,2px 8px',
+            },
+          }}
+        >
+          {e}
+          <Box
+            sx={{
               position: 'absolute',
               content: '""',
               width: '10px',
@@ -716,13 +710,11 @@ const DottedList: React.FC<DottedListProps> = ({children}) => {
               top: '0',
               transform: 'translateY(.4em)',
               borderRadius: '16px',
-              backgroundColor: '#4ADE80'
-          }}/>
-          </Box>
-        ))
-      }
-   
-   
+              backgroundColor: '#4ADE80',
+            }}
+          />
+        </Box>
+      ))}
     </Stack>
   )
 }

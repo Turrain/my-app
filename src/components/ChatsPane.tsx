@@ -3,12 +3,18 @@ import Stack from '@mui/joy/Stack'
 import Sheet from '@mui/joy/Sheet'
 import Typography from '@mui/joy/Typography'
 import {
+  Avatar,
   Box,
   Chip,
   IconButton,
   Input,
+  ListItem,
+  ListItemButton,
+  ListItemContent,
+  ListItemDecorator,
   Tab,
   TabList,
+  TabPanel,
   Tabs,
   tabClasses,
 } from '@mui/joy'
@@ -19,7 +25,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import ChatListItem from './ChatListItem'
 import { ChatProps } from './types'
 import { toggleMessagesPane } from './utils'
-
+import ListDivider from '@mui/joy/ListDivider';
 type ChatsPaneProps = {
   chats: ChatProps[]
   setSelectedChat: (chat: ChatProps) => void
@@ -27,6 +33,22 @@ type ChatsPaneProps = {
 }
 
 export default function ChatsPane(props: ChatsPaneProps) {
+  const [fetchedData, setFetchedData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/geojsons')
+        const data = await response.json()
+        setFetchedData(data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   const { chats, setSelectedChat, selectedChatId } = props
   return (
     <Sheet
@@ -85,65 +107,75 @@ export default function ChatsPane(props: ChatsPaneProps) {
           <CloseRoundedIcon />
         </IconButton>
       </Stack>
-      <Box sx={{ px: 2, pb: 1.5 }}>
-        <Stack direction='row' gap='4px'>
-          <Tabs
-            aria-label='tabs'
-            defaultValue={0}
-            sx={{ bgcolor: 'transparent' }}
-          >
-            <TabList
-              disableUnderline
-              sx={{
-                p: 0.5,
-                gap: 0.5,
-                bgcolor: 'background.level1',
-           
-              
-              }}
-            >
-              <Tab disableIndicator>Overview</Tab>
-              <Tab disableIndicator>Posts</Tab>
-            </TabList>
-          </Tabs>
-          <Tabs
-          aria-label='tabs'
-          defaultValue={0}
-          sx={{ bgcolor: 'transparent' }}
-        >
-          <TabList
-            disableUnderline
-            sx={{
-              p: 0.5,
-              gap: 0.5,
 
-              bgcolor: 'background.level1',
-           
+      <Tabs aria-label='tabs' defaultValue={0} sx={{ bgcolor: 'transparent' }}>
+        <TabList
+          disableUnderline
+          sx={{
+            p: 1,
+            gap: 0.5,
+
+            bgcolor: 'background.level1',
+          }}
+        >
+          <Tab disableIndicator>Map</Tab>
+          <Tab disableIndicator>Review</Tab>
+        </TabList>
+      </Tabs>
+
+      <Tabs aria-label='tabs' defaultValue={0} sx={{ bgcolor: 'transparent' }}>
+        <TabList
+          disableUnderline
+          sx={{
+            p: 1,
+            gap: 0.5,
+            bgcolor: 'background.level1',
+          }}
+        >
+          <Tab disableIndicator>Overview</Tab>
+          <Tab disableIndicator>Posts</Tab>
+        </TabList>
+        <TabPanel value={0}>
+          <List
+            sx={{
+              py: 0,
+              '--ListItem-paddingY': '0.75rem',
+              '--ListItem-paddingX': '1rem',
             }}
           >
-            <Tab disableIndicator>Map</Tab>
-            <Tab disableIndicator>Review</Tab>
-          </TabList>
-        </Tabs>
-        </Stack>
-      </Box>
+            {fetchedData.map((shape, index) => (
+              <>
+              <ListItem key={shape.shapeID}>
+                <ListItemButton>
+                <ListItemContent>
+                  <Typography level='title-sm'>{shape.shapeName}</Typography>
 
-      <List
-        sx={{
-          py: 0,
-          '--ListItem-paddingY': '0.75rem',
-          '--ListItem-paddingX': '1rem',
-        }}
-      >
-        {chats.map((chat) => (
-          <ChatListItem
-            key={chat.id}
-            {...chat}
-            setSelectedChat={setSelectedChat}
-            selectedChatId={selectedChatId}
-          />
-        ))}
-      </List>
+                  <Stack direction='row' justifyContent='space-between'>
+                    <Typography level='body-sm' noWrap>
+                      {shape.shapeGroup}
+                    </Typography>
+                    <Typography level='body-xs'>{shape.shapeID}</Typography>
+                  </Stack>
+                </ListItemContent>
+                </ListItemButton>
+              </ListItem>
+              <ListDivider inset="gutter" />
+              </>
+            ))}
+            {/* {chats.map((chat) => (
+              <ChatListItem
+                key={chat.id}
+                {...chat}
+                setSelectedChat={setSelectedChat}
+                selectedChatId={selectedChatId}
+              />
+            ))} */}
+          </List>
+        </TabPanel>
+        <TabPanel value={1}>
+          <b>Second</b> tab panel
+        </TabPanel>
+      </Tabs>
     </Sheet>
   )
 }
