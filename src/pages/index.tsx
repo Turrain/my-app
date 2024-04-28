@@ -12,14 +12,10 @@ import { useSession, getSession } from 'next-auth/react'
 import Link from '@mui/joy/Link'
 import './index.css'
 import {
-  ArrowForward,
   BookmarkAddOutlined,
   Check,
-  ColorLensRounded,
   DarkMode,
-  EmailOutlined,
   Face,
-  FacebookOutlined,
   FavoriteBorder,
   GitHub,
   Google,
@@ -50,9 +46,7 @@ import {
   LinearProgress,
   List,
   ListItem,
-  ListItemButton,
   ListItemDecorator,
-  ListSubheader,
   Snackbar,
   Stack,
   useColorScheme,
@@ -68,7 +62,7 @@ import Lightbox from 'yet-another-react-lightbox'
 import Zoom from 'yet-another-react-lightbox/plugins/zoom'
 import NextJsImage from '@/components/NextJsImage'
 import { getServerSession } from 'next-auth'
-import { ColorPaletteProp, SxProps } from '@mui/joy/styles/types'
+import { SxProps } from '@mui/joy/styles/types'
 import Image from 'next/image'
 
 function ModeToggle(props: any) {
@@ -110,9 +104,8 @@ const BorderWithCornerCircles = ({
     <Sheet
       variant={variant}
       sx={{
-        border: `2px solid ${color}`,
-        width: '100%',
-        height: '100%',
+        border: `2px dashed ${color}`,
+       
         p: 3,
         position: 'relative',
         opacity: '100%',
@@ -332,60 +325,12 @@ export default function Home() {
       flexDirection='column'
       gap='2rem'
       width='100%'
-   
+      sx={{ my: '4rem' }}
     >
-      <div>{session.data?.user?.email}</div>
-      <ModeToggle />
-      <Sheet
-        sx={{
-          display: 'flex',
-          flexFlow: 'row nowrap',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100vh',
-
-          position: 'relative,',
-        }}
+   
+      <LandingBlock
+       containerSize='xl'
       >
-        {/* <Box
-          sx={{
-            position: 'absolute',
-            left: '70%',
-            top: '8%',
-            display: { xs: 'none', md: 'block' },
-          }}
-        >
-          <BorderWithCornerCircles variant='plain' color='#0B6BCB'>
-            <Typography level='h2'>Login</Typography>
-            <Typography level='h4'>For using our services</Typography>
-          </BorderWithCornerCircles>
-        </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            left: '55%',
-            top: '1%',
-            display: { xs: 'none', md: 'block' },
-          }}
-        >
-          <BorderWithCornerCircles color='#0B6BCB'>
-            <Typography level='h2'>Resource Management</Typography>
-            <Typography level='h4'>Manage your farm, data and agro.</Typography>
-          </BorderWithCornerCircles>
-        </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            left: '39%',
-            top: '6%',
-            display: { xs: 'none', md: 'block' },
-          }}
-        >
-          <BorderWithCornerCircles color='#0B6BCB'>
-            <Typography level='h2'>Data Management</Typography>
-            <Typography level='h4'>Load or Import your own data</Typography>
-          </BorderWithCornerCircles>
-        </Box> */}
         {init && <Particles id='tsparticles' options={options} />}
 
         <Box
@@ -407,7 +352,7 @@ export default function Home() {
               variant='plain'
             >
               <Typography level='h1' maxWidth={400}>
-                AGRO GIS:
+                EOS Data Analytics:
               </Typography>
               <Box
                 sx={{
@@ -422,7 +367,7 @@ export default function Home() {
                   sx={{ color: '#4ADE80', textAlign: 'end' }}
                   maxWidth={400}
                 >
-                  Космические решения для Земных проблем
+                  Space solutions for Earth problems
                 </Typography>
               </Box>
               <Typography
@@ -436,15 +381,16 @@ export default function Home() {
                   borderRight: '2px solid #4ADE80',
                 }}
               >
-                Используя спутниковые данные и геоинформационные системы, AGRO
-                GIS предлагает инновационные решения для сельского хозяйства.
+                The normalized difference vegetation index (NDVI) is a
+                widely-used metric for quantifying the health and density of
+                vegetation using sensor data. It is calculated from
               </Typography>
             </BorderWithCornerCircles>
             <BorderWithCornerCircles color='#4ADE80' variant='plain'>
               <Typography level='h2' fontSize='md' maxWidth={480}>
-                Мощные аналитические возможности позволяют визуализировать
-                пространственные данные, выявлять проблемные зоны, рассчитывать
-                вегетационные индексы и строить прогнозные модели.
+                The normalized difference vegetation index (NDVI) is a
+                widely-used metric for quantifying the health and density of
+                vegetation using sensor data. It is calculated from
               </Typography>
             </BorderWithCornerCircles>
             <BorderWithCornerCircles color='#4ADE80' variant='plain'>
@@ -456,19 +402,19 @@ export default function Home() {
                 }}
               >
                 <Typography level='h3' textAlign='left'>
-                  Войдите &nbsp;
+                  Login &nbsp;
                   <ReactTyped
                     strings={[
-                      'для доступа к данным',
-                      'для доступа к картам',
-                      'для анализа',
+                      'to access data',
+                      'to access maps',
+                      'to help you',
                     ]}
                     typeSpeed={100}
                     loop
                   />
                   <br />
                   <Typography level='h4' fontSize='lg'>
-                    Просто одно нажатие
+                    Just one click
                   </Typography>
                 </Typography>
                 <Button variant='plain'>
@@ -477,7 +423,7 @@ export default function Home() {
                     level='h4'
                     fontSize='lg'
                   >
-                    Войти &gt;
+                    Next &gt;
                   </Typography>
                 </Button>
               </Box>
@@ -486,32 +432,28 @@ export default function Home() {
 
           <CardLayers3d />
         </Box>
-      </Sheet>
+      </LandingBlock>
 
-      <Box
-        sx={{
-          width: '95%',
-          margin: 'auto',
-        }}
-      >
-        <Box
-          display='flex'
-          sx={{
-            p: 2,
-            alignItems: 'center',
-            flexDirection: { xs: 'column', md: 'row' },
-          }}
-        >
-          <Box p={2}>
+      <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
+        <TwoSideComponent>
+          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <Typography
               level='h2'
               color='primary'
-              marginBottom={4}
+              marginBottom='4'
               maxWidth={400}
+              textAlign='right'
+              alignSelf='self-end'
             >
-              Space solutions for Earth problems
+              Space solutions
             </Typography>
-            <Typography level='h4' fontSize='md' maxWidth={500}>
+            <Typography
+              level='h2'
+              fontSize='md'
+              textAlign='right'
+              alignSelf='self-end'
+              maxWidth={500}
+            >
               EOS Data Analytics is one of the leading global geospatial
               analytics providers on the market, partnering with governmental,
               commercial, and scientific organizations. EOSDA creates
@@ -523,107 +465,96 @@ export default function Home() {
             </Typography>
           </Box>
           <Box borderRadius='45px' overflow='hidden'>
-            // eslint-disable-next-line jsx-a11y/alt-text
             <img src='map.jpg' width='100%' />
           </Box>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          width: '100%',
-
-          height: '100vh',
-        }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-
-            justifyContent: 'center',
-            my: '2rem',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <Typography
-              level='h4'
-              color='success'
-              maxWidth={400}
-              textAlign='center'
-            >
-              OUR PRODUCTS
-            </Typography>
-            <Typography
-              level='h2'
-              color='primary'
-              maxWidth={400}
-              textAlign='center'
-            >
-              Explore the geospatial solutions for your business
-            </Typography>
-            <Box
-              marginTop={26}
-              display='flex'
-              justifyContent='center'
-              width='100%'
-              gap={8}
-            >
-              {[1, 2, 3].map((index) => (
-                <Card size='lg' sx={{ width: '20%' }}>
-                  <CardOverflow>
-                    <AspectRatio ratio='2'>
-                      <img
-                        src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
-                        srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
-                        loading='lazy'
-                      />
-                    </AspectRatio>
-                  </CardOverflow>
-                  <Chip size='sm' variant='outlined' color='neutral'>
-                    BASIC
-                  </Chip>
-
-                  <Divider inset='none' />
-                  <Typography level='h3' textAlign='center'>
-                    Virtual Credit Cards {index}
-                  </Typography>
-                  <List
-                    size='sm'
-                    sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
-                      <ListItem key={index}>
-                        <ListItemDecorator>
-                          <Check color='success' />
-                        </ListItemDecorator>
-
-                        <Typography level='h4' fontSize='lg'>
-                          Virtual Credit Cards {index}
-                        </Typography>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Card>
-              ))}
-            </Box>
+        </TwoSideComponent>
+        <TwoSideComponent>
+          <Box borderRadius='45px' overflow='hidden'>
+            <img src='map.jpg' width='100%' />
           </Box>
-        </Box>
-      </Box>
+          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+            <DottedList>
+            <Typography level='h2' fontSize='md' maxWidth={500}>
+              EOS Data Analytics is one of the leading global geospatial
+              analytics providers on the market, partnering with governmental,
+              commercial, and scientific organizations. EOSDA creates
+              satellite-driven solutions for agriculture, forestry, and mining,
+              while also actively exploring 22 more industries. The Company sees
+              its mission as helping businesses around the world become more
+              sustainable via innovative precision observation and data
+              analytics tools.
+            </Typography>
+            <Typography level='h2' fontSize='md' maxWidth={500}>
+              EOS Data Analytics is one of the leading global geospatial
+              analytics providers on the market, partnering with governmental,
+              commercial, and scientific organizations. EOSDA creates
+              satellite-driven solutions for agriculture, forestry, and mining,
+              while also actively exploring 22 more industries. The Company sees
+              its mission as helping businesses around the world become more
+              sustainable via innovative precision observation and data
+              analytics tools.
+            </Typography>
+            </DottedList>
+         
+           
+          </Box>
+        </TwoSideComponent>
+      </LandingBlock>
 
-    
+      {/* <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
+        <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Stack
+            direction='row'
+            width='100%'
+            justifyContent='center'
+            alignItems='center'
+            spacing={2}
+          >
+            {[1, 2, 3].map((index) => (
+              <Card size='lg' sx={{ width: '450px' }}>
+                <CardOverflow>
+                  <AspectRatio ratio='2'>
+                    <img
+                      src='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318'
+                      srcSet='https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x'
+                      loading='lazy'
+                    />
+                  </AspectRatio>
+                </CardOverflow>
+                <Chip size='sm' variant='outlined' color='neutral'>
+                  BASIC
+                </Chip>
+
+                <Divider inset='none' />
+                <Typography level='h3' textAlign='center'>
+                  Virtual Credit Cards {index}
+                </Typography>
+                <List
+                  size='sm'
+                  sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                    <ListItem key={index}>
+                      <ListItemDecorator>
+                        <Check color='success' />
+                      </ListItemDecorator>
+
+                      <Typography level='h4' fontSize='lg'>
+                        Virtual Credit Cards {index}
+                      </Typography>
+                    </ListItem>
+                  ))}
+                </List>
+              </Card>
+            ))}
+          </Stack>
+        </Box>
+      </LandingBlock> */}
+
       <LandingBlock
         containerSize='xl'
         header='HELLO'
         subHeader='AEEEEEE'
-        imageUrl='planet-earth-background.jpg'
       >
         <Box
           sx={{
@@ -631,14 +562,16 @@ export default function Home() {
             justifyContent: 'center',
             height: '100%',
             margin: 'auto',
-            width: '70%',
+            width: '100%',
 
             flexWrap: 'wrap',
+
             gap: 4,
             mt: '10rem',
           }}
         >
           {Array.from({ length: 6 }, (_, index) => (
+              <BorderWithCornerCircles>
             <Card
               variant='plain'
               key={index}
@@ -658,10 +591,10 @@ export default function Home() {
                 </Typography>
               </CardContent>
             </Card>
+            </BorderWithCornerCircles>
           ))}
         </Box>
       </LandingBlock>
-
       <LandingBlock containerSize='xl' header='HELLO' subHeader='AEEEEEE'>
         <Stack gap='2rem'>
           <ImageWithContent
@@ -680,168 +613,6 @@ export default function Home() {
           </ImageWithContent>
         </Stack>
       </LandingBlock>
-      <MarketingBlock containerSize="xl">
-        <Typography level='h2'>Начните сейчас</Typography>
-        <Typography sx={{ mt: 0.5, mb: 2 }}>
-          Получите полный доступ
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 1,
-            flexWrap: 'wrap',
-            maxWidth: 'max-content',
-            '& > *': { flexGrow: 1, fontWeight: 'lg' },
-          }}
-        >
-          <Button sx={{ minWidth: 120 }}>Войти</Button>
-          <Button
-            variant='plain'
-            endDecorator={<ArrowForward />}
-            sx={{
-              '&:hover': { '--Button-gap': '0.625rem' },
-              '& span': { transition: '0.15s' },
-            }}
-          >
-            Свяжитесь с нами
-          </Button>
-        </Box>
-      </MarketingBlock>
-
-
-
-
-      <Sheet
-      variant="plain"
-     
-      invertedColors
-      sx={{
-       
-        flexGrow: 1,
-        p: 2,
-        borderRadius: { xs: 0, sm: 'sm' },
-      }}
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-       
-        <Divider orientation="vertical" />
-        <IconButton variant="plain">
-          <FacebookOutlined />
-        </IconButton>
-        <IconButton variant="plain">
-          <EmailOutlined />
-        </IconButton>
-        <Input
-          variant="soft"
-          placeholder="Type in your email"
-          type="email"
-          name="email"
-          endDecorator={
-            <IconButton variant="soft" aria-label="subscribe">
-              <SendOutlined />
-            </IconButton>
-          }
-          sx={{ ml: 'auto', display: { xs: 'none', md: 'flex' } }}
-        />
-      </Box>
-      <Divider sx={{ my: 2 }} />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: { md: 'flex-start' },
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 2,
-        }}
-      >
-        
-        <List
-          size="sm"
-          orientation="horizontal"
-          wrap
-          sx={{ flexGrow: 0, '--ListItem-radius': '8px' }}
-        >
-          <ListItem nested sx={{ width: { xs: '50%', md: 140 } }}>
-            <ListSubheader sx={{ fontWeight: 'xl' }}>Sitemap</ListSubheader>
-            <List>
-              <ListItem>
-                <ListItemButton>Services</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>Blog</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>About</ListItemButton>
-              </ListItem>
-            </List>
-          </ListItem>
-          <ListItem nested sx={{ width: { xs: '50%', md: 180 } }}>
-            <ListSubheader sx={{ fontWeight: 'xl' }}>Products</ListSubheader>
-            <List>
-              <ListItem>
-                <ListItemButton>Joy UI</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>Base UI</ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>Material UI</ListItemButton>
-              </ListItem>
-            </List>
-          </ListItem>
-        </List>
-      </Box>
-    </Sheet>
-    
-    </Box>
-  )
-}
-
-interface MarketingBlockProps {
-  children?: React.ReactNode[]
-  blockSx?: SxProps
-  imageUrl?: string
-  containerSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false
-}
-
-const MarketingBlock: React.FC<MarketingBlockProps> = ({
-  children,
-  blockSx,
-  imageUrl,
-  containerSize = 'xl',
-}) => {
-  return (
-    <Box
-      sx={{
-        minHeight: '20vh',
-        backgroundImage: `url(${imageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        ...blockSx,
-      }}
-    >
-      <Container maxWidth={containerSize}>
-        <Sheet
-          variant='solid'
-        
-          invertedColors
-          sx={{
-            flexGrow: 1,
-            display: 'flex',
-            bgcolor: '#111',
-            p: { xs: '36px', md: '70px' },
-            pt: { xs: '24px', md: '60px' },
-            borderRadius: 'lg',
-            overflow: 'hidden',
-            '& button': { borderRadius: 'xl' },
-            border: "2px solid #4ADE80 "
-          }}
-        >
-          <Box sx={{ zIndex: 1, position: 'relative' }}>{children}</Box>
-        
-        </Sheet>
-      </Container>
     </Box>
   )
 }
@@ -898,28 +669,6 @@ const LandingBlock: React.FC<LandingBlockProps> = ({
     </Box>
   )
 }
-
-interface TwoSideComponentProps {
-  children: React.ReactNode[]
-}
-
-const TwoSideComponent: React.FC<TwoSideComponentProps> = ({ children }) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        gap: '2rem',
-        flexDirection: { xs: 'column', md: 'row' },
-      }}
-    >
-      <Box sx={{ flex: 1 }}>{children[0]}</Box>
-      <Box sx={{ flex: 1 }}>{children[1]}</Box>
-    </Box>
-  )
-}
-
 interface ImageWithContentProps {
   children?: React.ReactNode
   imageSource: string
@@ -1057,53 +806,6 @@ const ImageWithContent: React.FC<ImageWithContentProps> = ({
 
 interface WideCardProps {
   children?: React.ReactNode
-}
-
-interface DottedListProps {
-  children?: React.ReactNode[]
-}
-const DottedList: React.FC<DottedListProps> = ({ children }) => {
-  return (
-    <Stack>
-      {children?.map((element, index) => (
-        <Box
-          key={index}
-          sx={{
-            position: 'relative',
-            paddingLeft: '2rem',
-            '&:before': {
-              content: '""',
-              position: 'absolute',
-              left: '4px',
-              top: '24px',
-              transform: 'none',
-              width: '5px',
-              height: '70%',
-              backgroundImage:
-                'linear-gradient(180deg,#4ADE80 60%,transparent 0),linear-gradient(180deg,#4ADE80 60%,transparent 0)',
-              backgroundRepeat: 'repeat-y,repeat-y',
-              backgroundSize: '2px 8px,2px 8px',
-            },
-          }}
-        >
-          {element}
-          <span
-            style={{
-              position: 'absolute',
-              content: '""',
-              width: '10px',
-              height: '10px',
-              left: '0',
-              top: '0',
-              transform: 'translateY(.4rem)',
-              backgroundColor: '#4ADE80',
-              borderRadius: '45px',
-            }}
-          ></span>
-        </Box>
-      ))}
-    </Stack>
-  )
 }
 
 const WideCard: React.FC<WideCardProps> = ({ children }) => {

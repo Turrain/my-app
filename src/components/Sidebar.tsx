@@ -32,6 +32,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from './utils';
+import { useSession } from 'next-auth/react';
 
 function Toggler(props: {
   defaultExpanded?: boolean;
@@ -63,6 +64,7 @@ function Toggler(props: {
 }
 
 export default function Sidebar() {
+  const session = useSession()
   return (
     <Sheet
       className="Sidebar"
@@ -299,8 +301,8 @@ export default function Sidebar() {
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">Siriwat K.</Typography>
-          <Typography level="body-xs">siriwatk@test.com</Typography>
+          <Typography level="title-sm">{session.data?.user?.email?.split('@')[0]}</Typography>
+          <Typography level="body-xs">{session.data?.user?.email}</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon />
