@@ -32,7 +32,6 @@
     "react": "^18",
     "react-dom": "^18",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-distortable-imageoverlay": "^1.0.7",
     "react-leaflet-draw": "^0.20.4",
     "react-typed": "^2.0.12",
     "yet-another-react-lightbox": "^3.17.2"
